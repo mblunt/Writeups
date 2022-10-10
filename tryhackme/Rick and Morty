@@ -1,0 +1,16 @@
+Rick and Morty:
+nmap reveals 80 and 22
+80 is webserver
+/ page reveals username: R1ckRul3s 
+robots.txt has password: Wubbalubbadubdub
+
+webshell
+cat command is blacklisted
+use the less command
+mr. meeseek hair
+clue.txt says to look through the file system
+cd ../../../../../; cd /home/rick; less "second ingredients"
+1 jerry tear
+sudo -l reveals I have sudo with no passwd
+sudo less /root/3rd.txt
+fleeb juice
