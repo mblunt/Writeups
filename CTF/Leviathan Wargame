@@ -76,3 +76,4 @@ Modified it a bit
 touch /tmp/experiment2/password
 for i in $(seq 0000 9999); do ./leviathan6 $i ; done
 In shell
+Cat /etc/leviathan_pass/leviathan7 → ahy7MaeBo9, I WON
