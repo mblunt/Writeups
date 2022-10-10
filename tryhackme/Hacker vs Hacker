@@ -1,0 +1,31 @@
+Hacker vs Hacker
+22
+80
+Apache 2.4.41 Ubuntu
+appears to be an apache webserver
+Notice a submission for “CV”/resume immediately after
+attempted to submit random file and saw a note left by a “hacker”
+they uploaded a shell via the CV input, probably a php shell
+Gobuster found a directory called “cvs”
+Not like the drug store, probably where resumes get stored
+Maybe I can execute a php rev shell from here
+Also in HTML of upload.php
+ seriously, dumb stuff:
+
+
+$target_dir = "cvs/";
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
+
+if (!strpos($target_file, ".pdf")) {
+  echo "Only PDF CVs are accepted.";
+} else if (file_exists($target_file)) {
+  echo "This CV has already been uploaded!";
+} else if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+  echo "Success! We will get back to you.";
+} else {
+  echo "Something went wrong :|";
+}
+Breaking it down, check for a pdf file, then allows if extension is correct.
+Also, no positional check, so it can be revshell.pdf.php
+This appears to be the initial exploitation route, however it may have been patched by the original hacker. Try searching for their revshell in /cvs/. The hint says they were “sloppy” so it is probably still there.
