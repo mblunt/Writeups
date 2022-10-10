@@ -1,0 +1,77 @@
+Linux Security Cheat Sheet:
+The point of this cheat sheet is to limit the initial access vectors of the Red Team. Ideally, we want to stop them BEFORE they gain access to the system. These commands/configurations all should help with this task. For the purposes of PCDC, we should only worry about open ports and services.
+
+What is running:
+ps -aux
+shows active processes.
+we can use this to identify suspicious processes.
+netstat -tulpn
+( -l ) show all listening sockets.
+( -p ) shows the PID for the socket, useful for ending the task
+Similar to netstat, it shows all ports open (listening) on our device.
+ss -k
+use with caution, closes designated open socket.
+Try not to use it unless it is detrimental to kill the process for whatever reason (e.g. part of a larger process we need).
+
+
+
+Linux Hardening Cheat Sheet:
+
+The point of this document is to prevent methods of privilege escalation and limit the damage the Red team is able to do assuming they are able to compromise the system initially
+
+Cover our tracks:
+echo /bin/mount > $HISTFILE
+overwrite the command history file with a bunch of gibberish (compiled mount binary)
+This is completely to confuse red team, they may waste time trying to figure out what it is.
+unset HISTFILE
+remove history file so Red Team can’t see our command input
+
+SSH Hardening:
+vim /etc/ssh/sshd_config
+Generally look for problems and bad configurations
+ex:
+PermitRootLogin no
+Only allow Specific Users - AllowUsers username
+SSH keys are far more secure than passwords, but will be very impractical for our competition. This is the line where security starts to hinder us. We should just set secure passwords, but that is just my philosophy.
+
+Monitoring and Honeypots:
+watch -d (command)
+( -d ) highlights differences in output between intervals
+Ideally we can use this to easily see if something changes, like a new listening socket has been created.
+We can redirect output to a file if it gets obnoxious.
+watch -d ls > /tmp/directory_watch 2>/dev/null
+lsof -t filename | wc -l
+checks to see how many processes are accessing a file, good for honeypots…
+doesn’t really work well for honeypots.
+Honeypot ideas:
+Open a port like 4444, monitor for any traffic.
+Scoreboard ideally will not scan these kinds of ports, leaving only the red team. We can use this to identify their IP/see if they have compromised our network and are attempting to pivot.
+tcpdump -i eth0 port 
+
+Cron and Scheduled Tasks:
+cat /etc/crontab
+stop a user from setting cron jobs
+echo (username) >>/etc/cron.deny
+check ~/.bashrc for all users
+check for at jobs
+check for running at command processes
+
+Penetration Testing Kinda:
+I included a script called linpeas.sh that checks for privesc vectors on the system. It checks way more than I could even write out on this document, and should give us a pretty comprehensive idea of what to secure in terms of privesc vulnerabilities.
+wget https://raw.githubusercontent.com/carlospolop/privilege-escalation-awesome-scripts-suite/master/linPEAS/linpeas.sh > /tmp/peas.sh
+run it as sudo to get a full system view.
+ 
+Basic Things to Do:
+On second thought, having this will be valuable if nothing else as a checklist.
+
+Checklist:
+Change passwords.
+sudo passwd -aS or cat /etc/passwd.
+shows all users and the status of their passwords ( -S ).
+sudo passwd (username).
+change other user’s passwords.
+Update the System
+apt-get update
+apt-get upgrade
+
+
