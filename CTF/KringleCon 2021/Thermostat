@@ -1,0 +1,7 @@
+Hack the thermostat:
+iwlist scan
+iwconfig eth0 key open
+iwconfig wlan0 essid "FROST-Nidus-Setup" key open
+curl http://nidus-setup:8080/
+curl http://nidus-setup:8080/apidoc
+curl -XPOST -H 'Content-Type: application/json'  --data-binary '{"temperature": 100}' http://nidus-setup:8080/api/cooler
