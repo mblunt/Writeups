@@ -1,0 +1,18 @@
+H1: Hard:
+22 (OpenSSH 8.2 Ubuntu)
+80 (Apache 2.4.41)
+found http://10.10.122.75/api/user/login in src code
+
+
+81 (nginx 1.18.0)
+shopping website, not 100% sure whats going on here
+82 (Apache 2.4.41)
+http://10.10.122.75:82/t/r/y/h/a/r/d/e/r/spamlog.log
+http://10.10.122.75:82/view
+You must supply an image
+http://10.10.122.75:82/feed?dir=FUZZ
+wfuzz -c --hh 23 -z file,/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt 10.10.122.75:82/feed?dir=FUZZ
+http://10.10.122.75:82/view?image=../../../../../../../etc/passwd
+You are not allowed to view contents from this directory
+2222 (OpenSSH 8.2 Ubuntu)
+
