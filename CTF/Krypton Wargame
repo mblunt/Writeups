@@ -1,0 +1,33 @@
+Krypton 0:
+Base64 encoded password, KRYPTONISGREAT
+
+Krypton 1:
+krypton1:KRYPTONISGREAT
+just a rot 13, put in cyberchef or solve manually (I did both)
+LEVEL TWO PASSWORD ROTTEN
+
+Krypton 2:
+Caesar cypher (vignette is cyberchef)
+key is “m” or 13
+CAESARISEASY
+
+Krypton 3:
+obv a frequency analysis question
+this is why caesar ciphers are insecure, and apparently this cipher too
+https://www.dcode.fr/monoalphabetic-substitution
+cat found1 found2 found3 krypton4
+ LFOUR PASSW ORDIS BRUTE
+
+Krypton 4:
+https://www.dcode.fr/vigenere-cipher
+FREKEY = key
+CLEARTEXT
+
+Krypton 5:
+https://www.dcode.fr/vigenere-cipher
+key length is 9
+KEYLENGTH = key
+RANDOM
+
+Krypton 6:
+harder, introduces modern ciphers
