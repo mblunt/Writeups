@@ -1,0 +1,13 @@
+Cyborg:
+nmap 22 and 80
+80
+dirbuster found /admin/
+notes in here reference a squid proxy with config files lying around?
+/etc/squid/
+passwd
+music_archive:$apr1$BpZ.Q.1m$F0qqPwHSOG50URuOVQTTn.
+looks like an md5 hashed password
+music_archive:d558cc8140de37d602d394acc1ef7896
+22
+music_archive:squidward
+doesn’t work?
