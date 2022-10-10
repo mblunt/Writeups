@@ -1,0 +1,40 @@
+Mr. Robot:
+22
+80
+Apache
+PHP 5.5.29
+Wordpress version 4.3.1
+WP-Cron enabled
+/readme
+says “I wont help you”
+/robots
+fsocity.dic
+giant dictionary file, reminds me of a password list
+possibly contains the password for the wp-login
+key-1-of-3.txt
+073403c8a58a1f80d943455fb30724b9
+wfuzz bruteforce
+username is Elliot
+found from fsocity.dic
+password is ER28-0652
+also from fsocity
+443
+WordPress (Elliot)
+edit the 404.php theme with a revshell
+go to 404.php
+catch rev shell
+/home/robot/password.raw-md5
+robot:c3fcd3d76192e4007dfb496cca67e13b
+obviously an MD5 hashed password 
+robot:abcdefghijklmnopqrstuvwxyz
+/home/robot/key-2-of-3.txt
+822c73956184f694993bede3eb39f959
+Robot
+Linpeas shows a cron job running, not sure what all it does
+nmap has SUID set?!
+GTFOBins
+nmap --interactive
+!sh
+cd /root
+cat key-3-of-3.txt
+04787ddef27c3dee1ee161b21670b4e4
