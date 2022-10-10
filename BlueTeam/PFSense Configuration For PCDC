@@ -1,0 +1,63 @@
+PFSense Configuration
+For PCDC
+
+Setup
+Use a 24V power supply with the router
+Connect an ethernet cable to eth1 and a PC
+Set ip addr of PC to 192.168.1.11 (just not 1.1)
+Subnet mask to 255.255.255.0
+Open web browser to 192.168.1.1
+
+Login
+Should be on 192.168.x.1
+Access using: 
+Web Browser
+SSH
+Telnet (if enabled)
+Step 1:
+Navigate to “Users” tab
+Click “Add User”
+Username - NetAdmin
+Full Name - Network Administration
+Password - NETWORK_password_123!
+Delete default user “ubnt”
+Click “Actions”
+Click “Delete”
+
+Firewall Basics
+Click “Firewall/NAT”
+Click “Firewall Policies”
+“Allow Established/Related”
+Allows connections initiated from within to pass through firewall.
+DISABLE THIS
+Adding a new rule
+Click “Actions” on “WAN IN”
+“Edit Ruleset”
+Click “Add New Rule”
+Basic
+Name the Rule (ex: Block Web)
+Enable the rule
+Click “Drop” (or Accept)
+Click “TCP and UDP” (or All Protocols)
+We still want ICMP to work so they know its up, so I chose “TCP and UDP”
+
+Advanced
+Check the “New, Established, and Related” boxes
+Source
+Specify an Address (ex: 192.168.1.10)
+Leave blank for all
+Specify a Port/Range
+Leave blank or put 1-65535 for all
+Specify a MAC Address
+Unnecessary unless you get Layer 2 devices
+Destination
+Specify an Address (ex: 192.168.1.10)
+Specify a Port (ex: 22)
+
+Notes:
+Use the log function in the pfsense firewall rules to solve problems, it can be very useful but it only holds 500 packets so be careful.
+
+I want to find a wireshark display filter that will allow me to view established connections lasting greater than a specified time interval. Wireshark has an inbuilt timestamp on each packet, and can follow TCP and UDP streams, but can it filter based on connection time?
+
+
+Ping scan windows cmd: for /l %i in (1,1,254) do @ping -n 1 -w 100 <first three octets of host network>.%i
