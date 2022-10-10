@@ -1,0 +1,54 @@
+Carnage:
+22
+duku shell from private key
+80
+http://10.10.104.48/flag.txt
+thm{5e7ea083245c2971820ee4d00ed74e29}
+Comment Form
+can pass information to a js form validate.js
+http://10.10.157.88/assets/vendor/php-email-form/validate.js
+Upload Form
+requires only docx, similar to vulnerability on port 82
+81
+sql injection vulnerability
+user
+admin’ or 1=1--
+if this doesn’t work on copy/paste fix the “ ‘ “ character
+
+
+82
+image upload page
+can upload a php webshell
+uh oh, filters by file extension
+10.10.104.48:82/showimg.php?img=../showimg.php
+got the file that does the filtering
+turn on burp
+upload your php webshell
+in burp intercept menu, send to repeater
+Change content type to: image/png
+make file structure look like:
+(name of file).png.php
+/images/(name of file).png.php
+executes the php, catch user shell
+83
+User Shell
+id = duku
+there are 3 initial exploitation routes
+export TERM=xterm
+cd /home/duku
+cat flag3.txt
+thm{1de4afafdee712c083aff746991d5345}
+found priv ssh keys in .ssh
+cd /var/www/html
+cd web3
+cat flag.txt
+thm{43f20e3ed108dda8c2383e5fa0286854}
+cd web1
+dGhtezljYTE0MDhiMzUyYWQ0NWIyNThhZmQ4ZDM3OTdmODVmfQo=
+thm{9ca1408b352ad45b258afd8d3797f85f}
+user:pass 
+bobba:-`G)8(t/NDkZ"u^{
+Priv Esc
+cant run /find
+found a tmux session started by root with group priv shared with duku
+linpeas
