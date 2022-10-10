@@ -1,0 +1,82 @@
+Ubiquity Edge Router CLI Management Document
+This document is intended to help if CLI management of the edgerouter is required.
+The GUI is probably easier, but this may be faster.
+Change Admin Password:
+defaults: ubnt:ubnt
+
+config
+set system login user AdminGuy authentication plaintext-password PassWordThingy
+commit
+save
+Backup Edgerouter:
+(from a root shell)
+sudo tar -czvf /tmp/backupconfig.tar.gz /config
+scp ubnt@192.168.1.1:/tmp/backupconfig.tar.gz ./
+Restore Edgerouter:
+(From CLI)
+
+load ?
+
+Possible completions:
+  <Enter>                           	Load from system config file
+  <file>                            	Load from file on local machine
+  scp://<user>:<passwd>@<host>/<file>   Load from file on remote machine
+  sftp://<user>:<passwd>@<host>/<file>  Load from file on remote machine
+ ftp://<user>:<passwd>@<host>/<file>   Load from file on remote machine
+ http://<host>/<file>                  Load from file on remote machine
+ tftp://<host>/<file>                  Load from file on remote machine
+compare
+commit ; save
+
+
+Things to Understand:
+The rules are grouped based on the type of network that they apply to. The following network types are used:
+WAN Contains IPv4 firewall rules that apply to the WAN network.
+LAN Contains IPv4 firewall rules that apply to the LAN (Corporate) network.
+Guest Contains IPv4 firewall rules that apply to the Guest network.
+WAN v6 Contains IPv6 firewall rules that apply to the WAN network.
+LAN v6 Contains IPv6 firewall rules that apply to the LAN (Corporate) network.
+Guest v6 Contains IPv6 firewall rules that apply to the Guest network.
+ Besides the network type, the firewall rules also apply to a direction. The following directions are used:
+Local Applies to traffic that is destined for the UDM/USG itself.
+In Applies to traffic that is entering the interface (ingress), destined for other networks.
+Out Applies to traffic that is exiting the interface (egress), destined for this network.
+For example, firewall rules configured under LAN In will apply to traffic from the LAN (Corporate) network, destined for other networks. Firewall rules configured under LAN Local will apply to traffic from the LAN (Corporate) network, destined for the UDM/USG itself.
+In addition to a direction or network type, the firewall rules can also use a state:
+new The incoming packets are from a new connection.
+established The incoming packets are associated with an already existing connection.
+related The incoming packets are new, but associated with an already existing connection.
+invalid The incoming packets do not match any of the other states.
+
+Firewall Rules:
+1. Enter configuration mode.
+configure
+2. Configure the WAN_IN firewall policy.
+set firewall name WAN_IN default-action drop
+set firewall name WAN_IN description 'WAN to internal'
+ 
+set firewall name WAN_IN rule 10 action accept
+set firewall name WAN_IN rule 10 description 'Allow established/related'
+set firewall name WAN_IN rule 10 state established enable
+set firewall name WAN_IN rule 10 state related enable
+ 
+set firewall name WAN_IN rule 20 action drop
+set firewall name WAN_IN rule 20 description 'Drop invalid state'
+set firewall name WAN_IN rule 20 state invalid enable
+3. Configure the WAN_LOCAL firewall policy.
+set firewall name WAN_LOCAL default-action drop
+set firewall name WAN_LOCAL description 'WAN to router'
+ 
+set firewall name WAN_LOCAL rule 10 action accept
+set firewall name WAN_LOCAL rule 10 description 'Allow established/related'
+set firewall name WAN_LOCAL rule 10 state established enable
+set firewall name WAN_LOCAL rule 10 state related enable
+ 
+set firewall name WAN_LOCAL rule 20 action drop
+set firewall name WAN_LOCAL rule 20 description 'Drop invalid state'
+set firewall name WAN_LOCAL rule 20 state invalid enable
+4. Attach the firewall policies to the WAN interface in the inbound and local direction.
+set interfaces ethernet eth0 firewall in name WAN_IN
+set interfaces ethernet eth0 firewall local name WAN_LOCAL
+
+commit ; save
