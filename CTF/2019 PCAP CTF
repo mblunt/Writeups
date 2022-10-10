@@ -1,0 +1,41 @@
+2019 PCAP CTF WRITEUP
+Michael Blunt
+9-11-19
+
+
+EASY
+
+The easy portion of the networking CTF was designed to be solvable with nothing more than google. 
+
+The flag in this exercise was the password used by 192.168.163.128 to authenticate via telnet with 192.168.163.129. The participant was provided with the above instructions, and given a pcap file and wireshark. 
+
+Select any of the telnet files and select “Follow → TCP Stream”
+Then, scroll down until you see the username and password, both in clear text.
+
+ANSWER: “msfadmin”
+
+
+EASY+
+
+The easy+ section was designed to require slightly more work, but also requires nothing beyond knowledge of the use of the TCP/HTTP Stream function.
+
+The flag in this exercise was simply the domain name of the website (ex: google.com). The participant was given a pcap file and instructed to find the domain name of the website that the user was accessing.
+
+Narrow the search using the filter option “http”
+You will notice that all but one of the outbound http requests are going to 199.232.33.67, and can reasonably assume that this is the website asked about.
+Select any of these HTTP files and follow either the HTTP or TCP Stream.
+The host is shown in clear text at the top of the page
+
+ANSWER: “cnn.com”
+
+MEDIUM
+
+The Medium section is a significant step up from Easy and Easy+, and presents a slightly more difficult objective.
+
+The flag in this image is an unencrypted PNG image sent from 192.168.163.128 to 192.168.163.129. It was sent via netcat after 192.168.163.128 telneted into 192.168.163.129.
+
+Follow the TCP stream, and adjust the stream number until you are at string 3.
+Turn the display form from ASCII text to Raw.
+Save the raw text as a png.
+
+ANSWER: “EARTH” 
