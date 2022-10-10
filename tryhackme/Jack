@@ -1,0 +1,51 @@
+Jack:
+22
+80
+wordpress server
+used wpscan to enum users as suggested
+jack
+danny
+wendy
+used wpscan to bruteforce passwords
+wendy:changelater
+doesnt work for ssh, but logs me into wordpress web interface.
+Wordpress User
+confused on what to do now for a bit
+reread the hit and it said “ure_other_roles”
+googled it and found a priv esc in wordpress
+https://vk9-sec.com/wordpress-plugin-user-role-editor-4-24-privilege-escalation/
+followed steps on this website to priv esc wendy to wpadmin
+added phprevshell to Hello Dolly, used pentestmonkeys shell
+saved edits and hit activate on the code
+boom revshell
+Revshell (www-data)
+bash -i
+export TERM=xterm
+user flag:
+0052f7829e48752f2e7bf50f1231548a
+hint points to python modules being the weakness
+all python modules belong to the group “family”
+jack is a member of the group family
+family can write/modify all python modules…
+this is not a normal configuration…must be part of priv esc
+Oops that is the next step lol, jack→root
+note hints at backup permissions being a problem
+cd /var/backups
+ls -la reveals a chmod 777 id_rsa file
+ssh -i id_rsa jack@jack.thm
+Jack Shell
+added a python revshell into the base64 module, and it works but no priv esc?
+I need to find a way to get root to trigger a python module…
+There must a python file on the machine that runs either with SUID or regularly
+Nothing in /etc/crontab
+/opt/statuscheck/checker.py
+read the log and it runs every 2 minutes
+appears to be run by root…
+uses the “os” module!!!!
+Exploit
+very simple, just took the file read from gtfo bins
+root = open(“/root/root.txt”).read()
+open("/tmp/root.txt","w+").write(root)
+watch ls /tmp
+root.txt :)
+b8b63a861cc09e853f29d8055d64bffb
