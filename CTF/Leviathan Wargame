@@ -1,0 +1,78 @@
+Leviathan 0:
+No info is given, assumed login is leviathan0:leviathan0
+Worked
+Found .backup directory owned by leviathan1
+Grep “leviathan” bookmark.html
+rioGegei8m
+
+Leviathan 1:
+Found file “check”” with suid bit set
+ltrace ./check
+Uses strcmp (string compare) to see if entered string is “sex”
+Very funny, I wish I was as funny as these guys
+Gives me a /bin/sh shell
+Whoami
+Leviathan2
+“Bash”
+Get better shell
+Cd /home/leviathan2
+./printfile
+Must be part of leviathan 2 group to execute…
+Have to find password or login as lev 2 somehow
+Cat /etc/leviathan_pass/leviathan2
+ougahZi8Ta
+
+Leviathan 2:
+Use r2 and gdb to reverse
+Program checks for args, if args != 2 then fail
+The checks ruid with access, passes user input to access with vuln function
+Exploit bash functionality to beat this chal
+./printfile /tmp/experiment/rtm;bash -p
+Looked up the last part, I reversed the program myself
+Note to future me: gdb does not maintain suid privileges, executing this program in gdb and attempting to edit registers is fine and will work, however the program runs as leviathan2 so it is useless for exploiting. A method that may work is stopping the program (run normally as ./printfile) mid execution and attaching it to gdb. Never got it to work but might be cool. Probably won’t work because the process is lev3 and gdb is lev2 but idk.
+Ahdiemoo1j
+
+
+Leviathan 3:
+R2 instantly shows a ton of strings being checked
+Looks like a password checker with the password store locally in plain text in the program
+But wait, the call for entering a password is after all of this?
+The function “do_stuff” is where everything really happens
+Compares 2 strings, if they match give the user a leviathan4 shell
+Tested with gdb
+ltrace ./level3
+Walks me through the program
+Compares h0no33 and kakaka?
+After trying once I see that it is comparing my input to “snlprintf”
+./level3 snlprintf
+Shell acquired B)
+vuH0coox6m
+
+Leviathan 4:
+I am an idiot!
+After hours of trying, mostly unsuccessful, to reverse this program, I realized it just took the password from /leviathan_pass/leviathan5 and turned it into binary. Hence the looping function that iterated ran 7 times (plus the initial run) and then added a space. It took me forever to solve this. I was way overthinking it.
+Tith4cokei
+
+Leviathan 5:
+Run leviathan5 program, looks for “/tmp/file.log” file.
+touch /tmp/file.log
+echo test > /tmp/file.log
+./leviathan5 → returns “test”
+Ok so it prints the contents of file.log
+Symbolic link to password file might work?
+ln -s  /etc/leviathan_pass/leviathan6 /tmp/file.log
+That was easy
+UgaoFee4li
+
+Leviathan 6:
+Asks for a 4 digit code, gives a shell if correct
+Possible ways to exploit:
+Brute force, its a 4 digit keycode, only 10 000 possibilities
+Keygen
+Bruteforce:
+Tried to write bash executable in /tmp/ to do this, I am horrible at writing shellcode so this failed miserably
+Realized, hey, this is a one liner that I have already used for bandit 24-->25!
+Modified it a bit
+touch /tmp/experiment2/password
+for i in $(seq 0000 9999); do ./leviathan6 $i ; done
+In shell
