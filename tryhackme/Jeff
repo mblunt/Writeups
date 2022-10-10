@@ -1,0 +1,55 @@
+Jeff:
+22
+80
+you have to go to http://jeff.thm
+straight ip will not work
+Jeffs blog
+running nginx
+wordpress site
+Gobuster
+uploads
+admin
+assets
+backups
+gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://jeff.thm/backups/ -t 20 -x zip,tar,gzip
+found backup.zip
+locked with passcode
+source_codes
+Backup.zip
+fcrackzip -v -u -D -p /usr/share/wordlists/rockyou.txt backup.zip
+pw == !!Burningbird!!
+wpadmin.bak
+wordpress password is: phO#g)C5dhIWZn3BKP
+More gobuster
+gobuster vhost -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://jeff.thm/ -t 20
+doesn’t work?
+add to /etc/hosts as wordpress.jeff.thm
+go to login page
+Jeff:phO#g)C5dhIWZn3BKP
+simple guessing
+Wordpress
+I was unable to edit the theme or plugin, so I wrote a malicious wordpress plugin
+uploaded and activated, and caught a shell
+future note: its wordpress.zip in ~/Desktop/tryhackme/resources
+Jeff User Shell
+I am in a docker container
+available useful commands
+/usr/bin/base64                                                                                                         
+/usr/bin/curl
+/usr/bin/g++
+/usr/bin/gcc
+/usr/bin/make
+/usr/bin/perl
+/usr/local/bin/php
+/usr/bin/python3.7
+/usr/bin/wget
+linpeas
+/var/www/html/ftp_backup.phpS
+/* 
+    Todo: I need to finish coding this database backup script.
+          also maybe convert it to a wordpress plugin in the future.
+*/
+$username = "backupmgr";
+$password = "SuperS1ckP4ssw0rd123!";
+Got stuck here, this is an unfinished file transfer program that is somehow processed by the host computer.
+I must have to exploit this somehow I have no idea…
