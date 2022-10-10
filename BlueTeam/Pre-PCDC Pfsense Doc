@@ -1,0 +1,86 @@
+Pfsense
+
+Things to be Careful of									1
+List of Ways In										2
+General Setup										3
+Snort Setup										4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+General Setup
+
+You are going to want to use the Web GUI. Much easier to operate and much more user friendly. Only problem is that it needs to be accessed from a remote computer, ie: not the computer running Pfsense. Shouldn’t be a problem at PCDC.
+
+Accessing Web GUI (presuming you have console access)
+
+On console boot up, you should see LAN and WAN.
+These two options should have IP addresses next to them.
+To navigate to the web GUI, simply type the address into a new tab, and log into the system using credentials.
+Default credentials are:
+USER - “admin”
+PASS - “pfsense”
+Go to the setup wizard
+Step 4 
+Here you can change static IP address 
+Make sure to block bogon net and RFC1918 Networks
+Step 6 
+Change admin password
+WRITE ON ENUMERATION SHEET
+Go to the Advanced 
+Admin Access
+Scroll to the bottom, Check (Password protect the console menu)
+SAVE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Snort - Installation and Setup
+
+From Web GUI:
+Open Web GUI
+Go to System/Package Manager/Available Packages
+Search “Snort” in search bar
+Install it
+Go to Services/Snort
+Turn on all rules, and type in your code
+Then Update the rules Under the Update tab.
+Configure As Needed
+
+OINKCODE - d6c30fc67c4d6981ee7554807aa0e08b873c3e41
+
+
