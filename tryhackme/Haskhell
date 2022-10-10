@@ -1,0 +1,24 @@
+HaskHell:
+nmap
+22 - shh
+5001 - gunicorn python server
+5001
+website says that it is a professor’s class who teaches haskell programming
+you can upload haskell code and have it evaluated by the compiler and run
+Found a haskell reverse shell on github, changed local ip and ran it
+got a revshell
+Haskell revshell
+keeps exiting randomly, really unreliable
+stays up for about 20 seconds, then exits
+found another one on revshells.com that actually works
+got user key from /home/prof
+flag{academic_dishonesty}
+also found ssh keys
+took these and sshed in to get at TTY shell
+SSH Shell
+sudo -l reveals that I can run “flask run” as sudo with nopasswd
+took a python shell from GTFObins
+put into /tmp/exploit.py
+export FLASK_APP=/tmp/exploit
+sudo flask run
+got a root shell!
