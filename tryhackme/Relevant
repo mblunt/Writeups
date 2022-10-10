@@ -1,0 +1,14 @@
+Relevant:
+80
+Windows IIS machine
+135
+139
+smbclient -L \\\\10.10.46.218\\
+smbclient \\\\10.10.46.218\\nt4wrksv
+dir
+get passwords.txt
+Bob - !P@$$W0rD!123
+Bill - Juw4nnaM4n420696969!$$$
+Where do I use these?
+445
+3389
