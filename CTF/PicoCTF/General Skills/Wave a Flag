@@ -1,0 +1,6 @@
+chmod +x warm
+Lame way:
+./warm -h
+Cool way
+Strings warm | grep pico
+picoCTF{b1scu1ts_4nd_gr4vy_30e77291}
