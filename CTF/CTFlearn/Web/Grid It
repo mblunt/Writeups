@@ -1,0 +1,8 @@
+Grid It:
+Login prompt
+username=” 1’ ”
+password=blank
+Sends me to a page with a grid?
+Noticed grid is controlled by: https://web.ctflearn.com/grid/controller.php?action=
+add_point
+delete_point
