@@ -1,0 +1,52 @@
+Split.pcap :
+
+What port is the receiver listening on? _______________
+How many TCP streams were sent in the capture? _______________
+What is the flag that was sent? (SKY-xxx-xxxx) _______________
+
+
+
+Incident-Response.zip : 
+
+What is the operating system's full distribution version number? _______________
+When did the attack take place? (Round to nearest minute)  _______________
+What is the attacker IP address? _______________
+What is the absolute path of the affected file? _______________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Split Writeup
+Things I immediately Noticed:
+All traffic is between 172.16.238.10 and 172.16.238.11
+All TCP except stuff at the top
+Split Q1:
+What port is the receiver listening on? 59381
+Super simple, just look for the destination port in Conversations.\
+Split Q2:
+How many TCP streams were sent in the capture? 1121
+Very straightforward, multiple ways to do this but I just used Conversations.
+Shows 1121 TCP streams with the earmark 3 way handshake
+Verified with display filter
+tcp.stream eq 1120 is last result, 1121 because of stream 0
+Split Q3:
+Probably packet reassembly, each TCP PSK packet has 1 character in it (ASCII)
+Filter with data and use LUA script to export only data section of packet and append it all together to get flag
