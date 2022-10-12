@@ -1,0 +1,9 @@
+Tried negative numbers, doesnt work
+Stops registering after numbers get to large
+Tried largest 32bit integer
+2147483647
+Got a price of -900
+Noticed in the code that there is an integer overflow possibility, because it is a signed int, any large enough number will simply wrap around and become negative
+2,500,000
+The final cost is: -2044967296
+YOUR FLAG IS: picoCTF{m0n3y_bag5_9c5fac9b}
