@@ -1,0 +1,16 @@
+Grepping for Gold:
+What port does 34.76.1.22 have open?
+grep ip file
+62078
+What port does 34.77.207.226 have open?
+grep ip file
+8080
+How many hosts appear "Up" in the scan?
+grep -c Up file 
+26054
+How many hosts have a web port open?
+echo $(grep 80 file) > 80.txt
+echo $(grep 8080 file) > 8080.txt
+diff 80.txt 8080.txt | wc -l
+4 lines are repeated
+grep 443 file > 443.txt
