@@ -1,0 +1,12 @@
+Immediately notice pcap and play on TFTP (trivial file tp)
+Tftp is unencrypted, should be able to export whatever was transferred easily.
+file-->export objects-->save all
+Instructions.txt
+Wack. seems to be encoded text?
+Pictures:
+All bmp and all weird dimensions, something steganography based?
+Program.deb:
+No clue, some tar files?
+Uncompressed the control tar, it is steghide…
+Earlier assumptions may have been correct, try it on the photos?
+Data tar is just md5sums for steghide
