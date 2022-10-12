@@ -1,0 +1,23 @@
+Initial Stuff
+Netdiscover
+192.168.149.137 = BlueSky
+192.168.149.129 = Kali
+BlueSky initial enumeration:
+Open ports
+22: ssh
+8080: http proxy
+Versions and OS
+Linux 3.x or 4.x
+Ubuntu
+SSH is 7.2, not vulnerable
+8080 is apache tomcat 9.0.40
+
+Apache Tomcat Server
+Appears to be the default unconfigured server
+OWASP ZAP
+Spidered the webpage first, nothing jumped out
+Reran ZAP with “attack”
+Discovered sql injection
+http://192.168.149.137:8080/examples/servlets/servlet/SessionExample?dataname=foo&datavalue=bar+AND+1%3D1+--+
+From ZAP
+Source code: http://192.168.149.137:8080/examples/servlets/sessions.html
