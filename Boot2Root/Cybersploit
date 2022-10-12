@@ -1,0 +1,27 @@
+Initial Stuff
+Nmap -sn 192.168.149.0/24
+Found 192.168.149.147
+Apache Server Open
+OpenSSH 5.9p1
+
+Apache Server
+Standard Web Page
+Inside html is username “itsskv”
+Used dirb and ZAP spider
+Found robots.txt
+Had a Base 64 encoded string in it
+Decoded, it was a flag/link to social of ctf maker
+
+SSH
+5.9p1 is vuln to username enumeration
+Itsskv is a user with ssh access
+Username: itsskv password: “the entirety of flag 1”
+
+Priv Esc
+I think I didn’t do it the way I was supposed to.
+Linux kernel 3.3.0-32
+Vulnerable to lots of things
+Used 37292.c from seachsploit
+Compiled on vuln machine and ran it
+Id = root
+
