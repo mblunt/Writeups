@@ -1,0 +1,54 @@
+Enum:
+nmap -sV -O -p22/80 192.168.1.131
+
+Apache 2.4.29
+Dirbuster
+http://192.168.1.131/site
+Used a bruteforce method
+Found /site/war.txt
+Note saying “/war-is-over/”
+Full of encrypted info?
+Put in cyberchef, it is a zip file?
+It's a base64 encoded zip file
+curl http://192.168.1.131/site/war-is-over/ | base64 -d > test.zip
+unzip test.zip
+Does Not work
+7z x test.txt
+Password protected king file
+
+Password Cracking
+zip2john test.txt > encrypted
+john encrypted --wordlist=/usr/share/wordlists/rockyou.txt
+“test.txt/king:ragnarok123:king:test.txt:test.txt”
+Yay password
+7z x test.txt
+Psswd: ragnarok123
+Unzipped successfully
+File king
+Jpeg file
+eog king is just viking ships
+steghide doesnt help
+Binwalk -D gets useful info
+User: famousBoatbuilder_floki@vikings
+Pass: f@m0usboatbuilde7
+
+SSH
+floki:f@m0usboatbuilde7
+Hint to use colatz conjecture on number 109
+https://catonmat.net/tools/generate-collatz-sequence
+Doesnt look to be anything useful
+Filter out all that are > 256 (largest ascii char)
+Turn all to ascii
+ragnar:mR)|>^/Gky[gz=\.F#j5P(
+
+Ragnar Shell
+ragnar:mR)|>^/Gky[gz=\.F#j5P(
+/bin/bash
+User flag: 4bf930187d0149a9e4374a4e823f867d
+After some looking, I found 2 random ports open
+Higher port is some sort of web server?
+Lower port, see below
+sudo python3 /usr/local/bin/rpyc_classic.py
+Found in “.profile” 
+Exploit this?
+Stuck here
