@@ -1,0 +1,11 @@
+Printer:
+Exploit is somehow through uploading new firmware
+Download firmware,
+Put payload into cyberchef
+It is zipped elf
+Download firmware.bin from cyberchef
+Reverse using r2
+Prints “Firmware is fully up to date!”
+
+
+JSON payload with elf, signed by sha256 signature
