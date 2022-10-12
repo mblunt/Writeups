@@ -1,0 +1,8 @@
+GhostBusters:
+https://gobustme.ctflearn.com/
+References “Gobuster” a web enumeration tool
+Found link to a wordlist, nice:
+https://raw.githubusercontent.com/v0re/dirb/master/wordlists/common.txt
+gobuster dir --url https://gobustme.ctflearn.com/ -w wordlist.txt 
+https://gobustme.ctflearn.com/hide/
+CTFlearn{gh0sbu5t3rs_4ever}
