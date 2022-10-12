@@ -1,0 +1,9 @@
+Find That Data!
+Prompted with a logon sheet
+I thought it was sql for some reason and spent like 20 minutes trying different sqli lol
+Finally looked in debugger and saw the username and password…
+I felt really dumb
+Brought to a stupid little changing maze
+You get a new token every second
+Maybe use console to generate a token and send you to /mem?
+  teammate solved before I finished
