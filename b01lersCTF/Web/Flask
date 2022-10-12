@@ -1,0 +1,8 @@
+Flask
+Ugh, this one annoyed me so much
+It requires you to be admin to see the flag
+Tried editing cookies, popped an error
+I was able to see a couple lines of code, specifically how the cookies were used in determining the status of the user
+Tried to get an interactive shell, required a pin
+Probably not supposed to do it that way anyways
+Come back later - Teammate solved it with my help
