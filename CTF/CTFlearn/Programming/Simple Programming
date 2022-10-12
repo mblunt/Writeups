@@ -1,0 +1,23 @@
+Simple Programming:
+Count if number of 1s are a multiple of 2 OR number of 0s are multiple of 3
+
+file = open('data.dat', 'r')
+lines = file.readlines()
+
+count = 0
+exitvar = 0
+
+for i in lines:
+  if i.count('0') % int(3) == 0
+    count = count + 1
+    exitvar = 1
+  else:
+    exitvar = 0
+  if exitvar != 1:
+    if i.count('1') % int(2) == 0:
+      count = count + 1
+  exitvar = 0
+
+print(count)
+
+CTFlearn{6662}
