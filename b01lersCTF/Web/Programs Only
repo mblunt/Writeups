@@ -1,0 +1,3 @@
+Pretty simple looking
+I used burp to intercept my packet and change the user-agent.
+Not 100% sure what to name the user-agent, and not worth the time to figure out
