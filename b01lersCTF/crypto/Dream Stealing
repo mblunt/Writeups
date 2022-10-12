@@ -1,0 +1,5 @@
+Dream Stealing
+Clearly RSA
+Given, n, e, p, ciphertext
+Use factordb to get q
+Calc phi and d with BigInt in java
