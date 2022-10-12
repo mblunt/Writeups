@@ -1,0 +1,17 @@
+Credit Card Fraudster:
+Some parameters
+It is a credit card number
+First 6 digits: 543210
+Last 4 digits: 1234
+Number is divisible by 123457, notice there is no “6”
+Need to find middle 6 numbers
+
+for i in range(0, 1000000)
+  number = "543210" + str(i) + "1234"
+  if int(number) % 123457 == 0:
+    print(number)
+  else:
+    continue
+
+Returned 8 values, second one works
+CTFlearn{5432103279251234}
