@@ -1,0 +1,13 @@
+SQL Database
+Ok this was something I’m decent at (finally ._.)
+Weird security function...
+Given a form that directly queries a MySQL database
+Found out later that LIMIT 20 was at the end
+After some enumeration, tables are:
+To_derezz
+Programs
+Iso(whatever else)
+SELECT * FROM programs ORDER BY 1 --
+Ctrl-f Tron
+Got the flag
+Alternative would have been to use sqlmap, but that's really noisy and the hosts may not like that too much.
