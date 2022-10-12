@@ -1,0 +1,32 @@
+KIOPTRIX 1
+Apache Server
+Kioptrix is running Apache 1.3.20 with a Redhat kernel
+Method 1: Web Exploit
+Ran OWASP-ZAP against the server
+Spider showed some interesting pages
+http://ip-addr/manual/mod
+Checked it out, showed LOTS of information
+SSL version
+Perl mods
+Very interesting and useful stuff
+Method 2: Version Exploit
+Use the OpenF*** program from searchsploit (764.c)
+Tried to compile, got a ton of errors…
+Google: Compiling errors with OpenF***
+There is a nice Medium article explaining how to fix it.
+Fixed and complied, seemed to compile fine.
+./764 0x0b 192.168.93.129 443 -c 40
+I had to restart the Kioptrix to get this to work
+Ran the executable again, got a non-interactive root shell
+No netcat, pty.spawn isn’t working
+/bin/sh -i works
+YAY
+
+Samba
+Kioptrix is running samba smbd (2.2.1a)
+Need a samba scanner? Look in exploitdb!
+Or not :(
+Use metasploit scanners
+Use auxiliary/scanner/smb/smb_version
+Returns: 2.2.1a
+Use auxiliary/scanner/smb/smb_enumshares
