@@ -1,0 +1,9 @@
+Finally show some love for pcap forensics :)
+Opened in wireshark
+Lots of encrypted communications
+Follow TCP steams
+In steam 5 found interesting communication:
+cvpbPGS{c33xno00_1_f33_h_qrnqorrs}
+Looks like a caesar cipher of the flag?
+Put into cyberchef, key was “n”
+picoCTF{p33kab00_1_s33_u_deadbeef}
