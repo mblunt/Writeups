@@ -1,0 +1,11 @@
+Given source code, you can literally just mess with it and find the answer
+Put in negative numbers to mess program up
+Solution after 5 minutes:
+First option == 0
+Second option == -10000
+You now have 10 000 coins
+Buy the flag
+Flag is:  [112 105 99 111 67 84 70 123 98 52 100 95 98 114 111 103 114 97 109 109 101 114 95 57 99 49 49 56 98 98 102 125]
+What?
+Convert to ASCII
+picoCTF{b4d_brogrammer_9c118bbf}
