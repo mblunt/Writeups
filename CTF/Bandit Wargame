@@ -1,0 +1,233 @@
+Bandit 0:
+Literally ssh in with given username and password
+Cat the readme: 
+
+Bandit 1:
+Cat the file “-”: 
+Must use path of file, ex “./-”
+CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9 
+
+Bandit 2
+Cat the file “spaces in this filename”
+cat ./”spaces in this filename”
+UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+
+Bandit 3:
+Cd to directory “inhere”
+Ls -la
+cat .hidden
+pIwrPrtPN36QITSp3EQaw936yaFoFgAB
+
+Bandit 4:
+cd inhere
+ls -la
+Grep -nr “A”
+koReBOKuIDDepwhWk7jZC0RTdopnAYKh
+
+Bandit 5:
+cd inhere
+Looking for file with size 1033
+ls -laRSa | grep 1033
+.file2
+Look for a .file2 with size 1033
+Found in maybehere07/
+DXjZPULLxYr17uwoI01bNLQbtFemEgo7
+
+Bandit 6:
+Cd all the way out
+Find -group bandit6 -user bandit7
+found /var/lib/dpkg/info/bandit7.password
+HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
+
+Bandit 7:
+Cat data.txt
+Woah lots of stuff
+Cat data.txt | grep millionth
+cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+
+Bandit 8:
+Cat data.txt
+sort data.txt | uniq -u
+UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+
+Bandit 9:
+Strings data.txt
+“Preceded by several equals signs” (it’s right there)
+truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
+
+Bandit 10:
+Given base64 encoded data
+Take it to cyberchef
+The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+
+Bandit 11:
+ROT13 data
+The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+
+Bandit 12:
+Actually doing something that takes more than 5 minutes
+Make a directory in /tmp/
+cp data over
+File data reveals that data is compressed
+Decompress with applicable format
+Repeat this 8 times until you get ascii text
+8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+
+Bandit 13:
+Annoying, I kept trying to connect to bandit14@bandit.labs.overthewire.org
+Given ssh priv key
+Ssh bandit14@localhost -i sshkey.private
+cat /etc/bandit_pass/bandit14
+4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+
+Bandit 14:
+Really easy
+nc localhost 30000
+4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e (old password)
+BfMYroe26WYalil77FoDi9qh59eK5xNr (new password)
+
+Bandit 15:
+echo "BfMYroe26WYalil77FoDi9qh59eK5xNr" | /usr/bin/openssl s_client -connect localhost:30001 -ign_eof
+cluFn7wTiGryunymYOu4RcffSxQluehd
+
+Bandit 16:
+nmap localhost -p 31000-32000
+nmap localhost -A (one of 5 servers)
+ echo "cluFn7wTiGryunymYOu4RcffSxQluehd" | openssl s_client -connect localhost:31790 -ign_eof
+Given RSA priv key
+-----BEGIN RSA PRIVATE KEY-----                                                 MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ                imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ                Ja6Lzb558YW3FZl87ORiO+rW4LCDCNd2lUvLE/GL2GWyuKN0K5iCd5TbtJzEkQTu                DSt2mcNn4rhAL+JFr56o4T6z8WWAW18BR6yGrMq7Q/kALHYW3OekePQAzL0VUYbW                JGTi65CxbCnzc/w4+mqQyvmzpWtMAzJTzAzQxNbkR2MBGySxDLrjg0LWN6sK7wNX                x0YVztz/zbIkPjfkU1jHS+9EbVNj+D1XFOJuaQIDAQABAoIBABagpxpM1aoLWfvD                KHcj10nqcoBc4oE11aFYQwik7xfW+24pRNuDE6SFthOar69jp5RlLwD1NhPx3iBl                J9nOM8OJ0VToum43UOS8YxF8WwhXriYGnc1sskbwpXOUDc9uX4+UESzH22P29ovd                d8WErY0gPxun8pbJLmxkAtWNhpMvfe0050vk9TL5wqbu9AlbssgTcCXkMQnPw9nC                YNN6DDP2lbcBrvgT9YCNL6C+ZKufD52yOQ9qOkwFTEQpjtF4uNtJom+asvlpmS8A                vLY9r60wYSvmZhNqBUrj7lyCtXMIu1kkd4w7F77k+DjHoAXyxcUp1DGL51sOmama                +TOWWgECgYEA8JtPxP0GRJ+IQkX262jM3dEIkza8ky5moIwUqYdsx0NxHgRRhORT                8c8hAuRBb2G82so8vUHk/fur85OEfc9TncnCY2crpoqsghifKLxrLgtT+qDpfZnx                SatLdt8GfQ85yA7hnWWJ2MxF3NaeSDm75Lsm+tBbAiyc9P2jGRNtMSkCgYEAypHd                HCctNi/FwjulhttFx/rHYKhLidZDFYeiE/v45bN4yFm8x7R/b0iE7KaszX+Exdvt                SghaTdcG0Knyw1bpJVyusavPzpaJMjdJ6tcFhVAbAjm7enCIvGCSx+X3l5SiWg0A                R57hJglezIiVjv3aGwHwvlZvtszK6zV6oXFAu0ECgYAbjo46T4hyP5tJi93V5HDi                Ttiek7xRVxUl+iU7rWkGAXFpMLFteQEsRr7PJ/lemmEY5eTDAFMLy9FL2m9oQWCg                R8VdwSk8r9FGLS+9aKcV5PI/WEKlwgXinB3OhYimtiG2Cg5JCqIZFHxD6MjEGOiu                L8ktHMPvodBwNsSBULpG0QKBgBAplTfC1HOnWiMGOU3KPwYWt0O6CdTkmJOmL8Ni                blh9elyZ9FsGxsgtRBXRsqXuz7wtsQAgLHxbdLq/ZJQ7YfzOKU4ZxEnabvXnvWkU                YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM                77pBAoGAMmjmIJdjp+Ez8duyn3ieo36yrttF5NSsJLAbxFpdlc1gvtGCWW+9Cq0b                dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3                vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=                            -----END RSA PRIVATE KEY-----
+mkdir /tmp/mikel
+Copy and paste rsa key into a file in /mikel/
+Rename file sshkey.private
+chmod 400 sshkey.private
+Ssh -i sshkey.private bandit17@localhost
+
+Bandit 17:
+Diff passwords.old passwords.new
+bottom passwd is from the second file.
+kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+
+Bandit 18:
+ssh bandit18@bandit.labs.overthewire.org -p 2220 cat ~/readme
+IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+
+Bandit 19:
+./bandit20-do cat /etc/bandit_pass/bandit20
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+
+Bandit 20:
+echo "GbKksEFF4yrVs6il55v6gwY5aVje5f0j" | nc -l localhost -p 61337 &
+gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+
+Bandit 21:
+Cd /etc/cron.d
+cat cronjob_bandit22
+Cd /usr/bin/
+Cat cronjob_bandit22.sh
+Cat /tmp/*string*
+Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
+
+Bandit 22:
+Cd /etc/cron.d
+cat cronjob_bandit23
+Cd /usr/bin/
+Cat cronjob_bandit23.sh
+(echo I am user bandit23 | md5sum | cut -d ' ' -f 1)
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+
+Bandit23:
+Cd /etc/cron.d
+cat cronjob_bandit24
+Cd /usr/bin/
+Cat cronjob_bandit24.sh
+Will execute files with user bandit23 with bandit24 privileges if in /var/spool/bandit24
+Nano /tmp/mikel/band24
+#!/bin/bash
+cat /etc/bandit_pass/bandit24 > /tmp/myname123/band24pass
+cp /tmp/mikel/copy.sh /var/spool/bandit24/
+(cronjob executes every minute, just wait for it to execute)
+UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+
+Bandit24:
+Starting to get harder, this one asks me to bruteforce a pin
+#!/bin/bash
+passwd24=UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+for i in {0000..9999}; do
+            echo "$passwd24 $i"
+done | nc localhost 30002  | grep -v Wrong | grep -v "I am the pincode checker for user bandit25"
+uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+This one sucked
+
+Bandit 25:
+Its an ssh key
+Try to login, get immediately kicked out
+Cat /etc/passwd | grep bandit26
+Cat /usr/bin/showtext
+#!/bin/sh                                                                                                                                                         export TERM=linux                                                                                                                                                 more ~/text.txt                                                                  
+exit 0
+The answer is ridiculous, it exploits the more command functionality.
+Basically resize the command prompt so it is small enough to trigger the more function
+In windows cmd right click bar and go to properties and change window buffer height to like 10
+Use exploit db to get info
+Press ‘v’
+:e /etc/bandit_pass/bandit26
+5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
+:set shell=/bin/sh
+:shell
+Make the font size larger to trigger more command
+
+Bandit 26:
+Ls -la
+./bandit27-do cat /etc/bandit_pass/bandit27
+3ba3118a22e93127a4ed485be72ef5ea
+
+Bandit 27:
+Mkdir /tmp/mikel5
+Cd /tmp/mikel5
+Git clone ssh://bandit27-git@localhost...blah..blah
+Cd repo
+Cat README
+0ef186ac70e04ea33b4c1853d2526fa2
+
+Bandit 28:
+Mkdir /tmp/mikel6
+Cd /tmp/mikel6
+Git clone ssh://bandit28-git@localhost...blah..blah
+Cd repo
+git log -p -1
+bbc96594b4e001778eee9975372716b2
+
+Bandit 29:
+In readme shows that password is “not in production”
+git remote show origin
+Found development branch
+git checkout dev
+cat README.md
+5b90576bedb2cc04c86a9e924ce42faf
+
+Bandit30:
+Empty readme
+Tried everything from prior levels
+Eventually got to “git tag”
+“Secret”
+Git show secret
+47e603bb428404d265f59c42920d81e5
+
+Bandit 31:
+https://medium.com/secttp/overthewire-bandit-level-31-ac8ae3c0b41b
+I had no idea how to do this
+56a9bf19c63d650ce78e6ec0354ee45e
+
+Bandit 32:
+Uppercase shell
+What kind of troll made this thing
+Eventually found out I can us $0 to retrigger the normal shell
+Uppershell has suid bit set, need to exploit it somehow
+Im dumb, I have exploited it
+Id = bandit33
+Cat /etc/bandit_pass/bandit33
+c9c3199ddf4121b10cf581a98d51caee
+Bandit 33:
+Does not exist yet...I guess i win?
+
