@@ -1,0 +1,8 @@
+Git is Good:
+Took me a little while because I don’t use git often
+Concept is that git has commits, or basically versions, where changes have been made. These changes are saved, and can be accessed
+Flag is listed as redacted
+git log shows that there have been changes to the flag.txt file
+git checkout 195dd65b9f5130d5f8a435c5995159d4d760741b
+Cat flag.txt
+CTFlearn{protect_your_git}
