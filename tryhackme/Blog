@@ -1,0 +1,68 @@
+Billy Joel made a Wordpress blog! 
+
+Billy Joel made a blog on his home computer and has started working on it.  It's going to be so awesome!
+
+Enumerate this box and find the 2 flags that are hiding on it!  Billy has some weird things going on his laptop.  Can you maneuver around and get what you need?  Or will you fall down the rabbit hole...
+
+In order to get the blog to work with AWS, you'll need to add blog.thm to your /etc/hosts file.
+
+Credit to Sq00ky for the root privesc idea ;)
+
+
+Basic Enumeration:
+22/tcp  open  ssh         OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 578ada90baed3a470c05a3f7a80a8d78 (RSA)
+|   256 c264efabb19a1c87587c4bd50f204626 (ECDSA)
+|_  256 5af26292118ead8a9b23822dad53bc16 (ED25519)
+80/tcp  open  http        Apache httpd 2.4.29 ((Ubuntu))
+| http-robots.txt: 1 disallowed entry 
+|_/wp-admin/
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-generator: WordPress 5.0
+|_http-title: Billy Joel&#039;s IT Blog &#8211; The IT blog
+139/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+445/tcp open  netbios-ssn Samba smbd 4.7.6-Ubuntu (workgroup: WORKGROUP)
+Service Info: Host: BLOG; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Website:
+It is a wordpress website.
+
+Interesting entry in robots.txt
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+Found a username: kwheel
+Test for weak password with rockyou and wfuzz while I do other things.
+
+Got gomething relatively fast, kwheel:cutiepie1
+I now have access to wpadmin but nothing useful, lets try the same tactic with billy joel (bjoel)
+
+
+
+OOPS...real emails disclosed in a challenge...rookie error.
+n******@outlook.com
+n**********@gmail.com
+
+SMB enumeration:
+Decided to take a look at the SMB share, see if anything is just open. This is common in CTFy challenges like this one.
+
+smbmap -H 10.10.79.113
+[+] Guest session       IP: 10.10.79.113:445    Name: blog.thm                                          
+        Disk                                                    Permissions     Comment
+        ----                                                    -----------     -------
+        print$                                                  NO ACCESS       Printer Drivers
+        BillySMB                                                READ, WRITE     Billy's local SMB Share
+        IPC$                                                    NO ACCESS       IPC Service (blog server (Samba, Ubuntu))
+
+Sure enough, there is a local SMB share open with RW perms.
+
+smclient to connect
+
+  Alice-White-Rabbit.jpg              N    33378  Tue May 26 14:17:01 2020
+  tswift.mp4                          N  1236733  Tue May 26 14:13:45 2020
+  check-this.png                      N     3082  Tue May 26 14:13:43 2020
+
+Interesting, download them all.
+Not sure what to do from here...went to look at the website.
