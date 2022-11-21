@@ -1,0 +1,66 @@
+Files can always be changed in a secret way. Can you find the flag? cat.jpg
+
+Hints:
+Look at the details of the file
+Make sure to submit the flag as picoCTF{XXXXX}
+
+eog shows that the file is slightly distorted
+2560x1598
+weird
+
+Check the metadata:
+
+```
+
+......JFIF......
+.......0Photosho
+p 3.0.8BIM......
+....t..PicoCTF..
+..........http:/
+/ns.adobe.com/xa
+p/1.0/.<?xpacket
+begin='...' id=
+'W5M0MpCehiHzreS
+zNTczkc9d'?>.<x:
+xmpmeta xmlns:x=
+'adobe:ns:meta/'
+x:xmptk='Image:
+:ExifTool 10.80'
+>.<rdf:RDF xmlns
+:rdf='http://www
+.w3.org/1999/02/
+22-rdf-syntax-ns
+#'>.. <rdf:Descr
+iption rdf:about
+=''.  xmlns:cc='
+http://creativec
+ommons.org/ns#'>
+.  <cc:license r
+df:resource='cGl
+jb0NURnt0aGVfbTN
+0YWRhdGFfMXNfbW9
+kaWZpZWR9'/>. </
+rdf:Description>
+.. <rdf:Descript
+ion rdf:about=''
+.  xmlns:dc='htt
+p://purl.org/dc/
+elements/1.1/'>.
+ <dc:rights>.
+<rdf:Alt>.    <
+rdf:li xml:lang=
+'x-default'>Pico
+CTF</rdf:li>.
+</rdf:Alt>.  </d
+c:rights>. </rdf
+:Description>.</
+rdf:RDF>.</x:xmp
+meta>.
+
+```
+
+What are the base64 encoded things?
+
+echo cGljb0NURnt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9 | base64 -d
+
+picoCTF{the_m3tadata_1s_modified}
